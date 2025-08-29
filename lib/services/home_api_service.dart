@@ -47,7 +47,7 @@ class ApiService {
       return []; 
     } catch (e) {
       log("Unknown error fetching anime cards", error: e);
-      return [];
+      rethrow;
     }
   }
 }
