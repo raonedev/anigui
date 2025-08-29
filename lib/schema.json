@@ -1,0 +1,2851 @@
+{
+  "data": {
+    "__schema": {
+      "types": [
+        {
+          "name": "Query",
+          "fields": [
+            {
+              "name": "twoFactorSecret"
+            },
+            {
+              "name": "getUser"
+            },
+            {
+              "name": "fastSearch"
+            },
+            {
+              "name": "shows"
+            },
+            {
+              "name": "show"
+            },
+            {
+              "name": "showsWithIds"
+            },
+            {
+              "name": "showsWithPlaylistId"
+            },
+            {
+              "name": "mangas"
+            },
+            {
+              "name": "manga"
+            },
+            {
+              "name": "mangasWithIds"
+            },
+            {
+              "name": "mangasWithPlaylistId"
+            },
+            {
+              "name": "episodes"
+            },
+            {
+              "name": "episode"
+            },
+            {
+              "name": "episodeInfos"
+            },
+            {
+              "name": "chaptersForRead"
+            },
+            {
+              "name": "chapterPages"
+            },
+            {
+              "name": "chapter"
+            },
+            {
+              "name": "charactersWithAnilistId"
+            },
+            {
+              "name": "stuffs"
+            },
+            {
+              "name": "musics"
+            },
+            {
+              "name": "music"
+            },
+            {
+              "name": "musicsWithPlaylistId"
+            },
+            {
+              "name": "queryPopularMusic"
+            },
+            {
+              "name": "queryMusicRecommendation"
+            },
+            {
+              "name": "playlistWithId"
+            },
+            {
+              "name": "playlists"
+            },
+            {
+              "name": "myPlaylists"
+            },
+            {
+              "name": "relatedPlaylistsWithPlayId"
+            },
+            {
+              "name": "userPlaylists"
+            },
+            {
+              "name": "queryPageStatusForShowManga"
+            },
+            {
+              "name": "queryRecommendation"
+            },
+            {
+              "name": "queryPopular"
+            },
+            {
+              "name": "queryLatestPageStatus"
+            },
+            {
+              "name": "queryPageForIndependentDoc"
+            },
+            {
+              "name": "queryCommentLikes"
+            },
+            {
+              "name": "queryComments"
+            },
+            {
+              "name": "queryReviews"
+            },
+            {
+              "name": "queryUserReviews"
+            },
+            {
+              "name": "queryUserComments"
+            },
+            {
+              "name": "queryUserActivities"
+            },
+            {
+              "name": "queryRandomRecommendation"
+            },
+            {
+              "name": "testFcm"
+            },
+            {
+              "name": "watchState"
+            },
+            {
+              "name": "watchingList"
+            },
+            {
+              "name": "users"
+            },
+            {
+              "name": "user"
+            },
+            {
+              "name": "queryTags"
+            },
+            {
+              "name": "queryListForTag"
+            },
+            {
+              "name": "appsAccessbility"
+            },
+            {
+              "name": "appParams"
+            }
+          ]
+        },
+        {
+          "name": "TwoFactorSecretKey",
+          "fields": [
+            {
+              "name": "ascii"
+            },
+            {
+              "name": "base32"
+            },
+            {
+              "name": "hex"
+            },
+            {
+              "name": "qr_code_ascii"
+            },
+            {
+              "name": "qr_code_hex"
+            },
+            {
+              "name": "qr_code_base32"
+            },
+            {
+              "name": "google_auth_qr"
+            },
+            {
+              "name": "otpauth_url"
+            }
+          ]
+        },
+        {
+          "name": "String",
+          "fields": null
+        },
+        {
+          "name": "User",
+          "fields": [
+            {
+              "name": "id"
+            },
+            {
+              "name": "emails"
+            },
+            {
+              "name": "username"
+            },
+            {
+              "name": "_id"
+            },
+            {
+              "name": "displayName"
+            },
+            {
+              "name": "password"
+            },
+            {
+              "name": "roles"
+            },
+            {
+              "name": "heartbeat"
+            },
+            {
+              "name": "hideMe"
+            },
+            {
+              "name": "status"
+            },
+            {
+              "name": "registered_emails"
+            },
+            {
+              "name": "createdAt"
+            },
+            {
+              "name": "picture"
+            },
+            {
+              "name": "coverImg"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "brief"
+            },
+            {
+              "name": "badges"
+            },
+            {
+              "name": "statistics"
+            },
+            {
+              "name": "views"
+            },
+            {
+              "name": "likesCount"
+            },
+            {
+              "name": "commentCount"
+            },
+            {
+              "name": "dislikesCount"
+            },
+            {
+              "name": "userScoreCount"
+            },
+            {
+              "name": "reviewCount"
+            },
+            {
+              "name": "userScoreTotalValue"
+            },
+            {
+              "name": "userScoreAverValue"
+            },
+            {
+              "name": "viewers"
+            },
+            {
+              "name": "pgRelation"
+            }
+          ]
+        },
+        {
+          "name": "ID",
+          "fields": null
+        },
+        {
+          "name": "EmailRecord",
+          "fields": [
+            {
+              "name": "address"
+            },
+            {
+              "name": "verified"
+            }
+          ]
+        },
+        {
+          "name": "Boolean",
+          "fields": null
+        },
+        {
+          "name": "UserStatus",
+          "fields": [
+            {
+              "name": "lastlogin"
+            },
+            {
+              "name": "userAgent"
+            },
+            {
+              "name": "online"
+            },
+            {
+              "name": "page"
+            },
+            {
+              "name": "idle"
+            }
+          ]
+        },
+        {
+          "name": "lastlogin",
+          "fields": [
+            {
+              "name": "date"
+            },
+            {
+              "name": "ipAddr"
+            }
+          ]
+        },
+        {
+          "name": "Email",
+          "fields": [
+            {
+              "name": "address"
+            },
+            {
+              "name": "verified"
+            }
+          ]
+        },
+        {
+          "name": "Object",
+          "fields": null
+        },
+        {
+          "name": "BigInt",
+          "fields": null
+        },
+        {
+          "name": "Float",
+          "fields": null
+        },
+        {
+          "name": "ValidViewers",
+          "fields": [
+            {
+              "name": "recViewers"
+            },
+            {
+              "name": "firstViewers"
+            }
+          ]
+        },
+        {
+          "name": "Viewer",
+          "fields": [
+            {
+              "name": "userId"
+            },
+            {
+              "name": "viewCount"
+            },
+            {
+              "name": "lastWatchedDate"
+            },
+            {
+              "name": "user"
+            }
+          ]
+        },
+        {
+          "name": "Int",
+          "fields": null
+        },
+        {
+          "name": "UserDisplay",
+          "fields": [
+            {
+              "name": "_id"
+            },
+            {
+              "name": "displayName"
+            },
+            {
+              "name": "roles"
+            },
+            {
+              "name": "hideMe"
+            },
+            {
+              "name": "status"
+            },
+            {
+              "name": "createdAt"
+            },
+            {
+              "name": "picture"
+            },
+            {
+              "name": "coverImg"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "brief"
+            },
+            {
+              "name": "badges"
+            },
+            {
+              "name": "statistics"
+            },
+            {
+              "name": "views"
+            },
+            {
+              "name": "likesCount"
+            },
+            {
+              "name": "commentCount"
+            },
+            {
+              "name": "dislikesCount"
+            },
+            {
+              "name": "userScoreCount"
+            },
+            {
+              "name": "reviewCount"
+            },
+            {
+              "name": "userScoreTotalValue"
+            },
+            {
+              "name": "userScoreAverValue"
+            },
+            {
+              "name": "viewers"
+            },
+            {
+              "name": "pgRelation"
+            }
+          ]
+        },
+        {
+          "name": "PageRelation",
+          "fields": [
+            {
+              "name": "_id"
+            },
+            {
+              "name": "format"
+            },
+            {
+              "name": "showId"
+            },
+            {
+              "name": "userId"
+            },
+            {
+              "name": "episodeIdNum"
+            },
+            {
+              "name": "language"
+            },
+            {
+              "name": "views"
+            },
+            {
+              "name": "like"
+            },
+            {
+              "name": "dislike"
+            },
+            {
+              "name": "uScore"
+            },
+            {
+              "name": "lastActivity"
+            },
+            {
+              "name": "spFields"
+            },
+            {
+              "name": "isAdult"
+            },
+            {
+              "name": "comment"
+            },
+            {
+              "name": "relatedItem"
+            },
+            {
+              "name": "user"
+            }
+          ]
+        },
+        {
+          "name": "VaildPageRelationFormatEnumType",
+          "fields": null
+        },
+        {
+          "name": "SearchInput",
+          "fields": null
+        },
+        {
+          "name": "SortBy",
+          "fields": null
+        },
+        {
+          "name": "SortDirection",
+          "fields": null
+        },
+        {
+          "name": "VaildSeasonsEnumType",
+          "fields": null
+        },
+        {
+          "name": "SearchResult",
+          "fields": [
+            {
+              "name": "anyCards"
+            }
+          ]
+        },
+        {
+          "name": "AnyCard",
+          "fields": [
+            {
+              "name": "_id"
+            },
+            {
+              "name": "updateQueue"
+            },
+            {
+              "name": "manualUpdated"
+            },
+            {
+              "name": "dailyUpdateNeeded"
+            },
+            {
+              "name": "hidden"
+            },
+            {
+              "name": "lastUpdateStart"
+            },
+            {
+              "name": "lastUpdateEnd"
+            },
+            {
+              "name": "shownOnOtherSite"
+            },
+            {
+              "name": "shownOnMAL"
+            },
+            {
+              "name": "malId"
+            },
+            {
+              "name": "aniListId"
+            },
+            {
+              "name": "streamerUrls"
+            },
+            {
+              "name": "name"
+            },
+            {
+              "name": "englishName"
+            },
+            {
+              "name": "nativeName"
+            },
+            {
+              "name": "nameOnlyString"
+            },
+            {
+              "name": "status"
+            },
+            {
+              "name": "altNames"
+            },
+            {
+              "name": "trustedAltNames"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "prevideos"
+            },
+            {
+              "name": "thumbnail"
+            },
+            {
+              "name": "banner"
+            },
+            {
+              "name": "musics"
+            },
+            {
+              "name": "thumbnails"
+            },
+            {
+              "name": "type"
+            },
+            {
+              "name": "score"
+            },
+            {
+              "name": "averageScore"
+            },
+            {
+              "name": "popularity"
+            },
+            {
+              "name": "genres"
+            },
+            {
+              "name": "airedStart"
+            },
+            {
+              "name": "airedEnd"
+            },
+            {
+              "name": "season"
+            },
+            {
+              "name": "episodeCount"
+            },
+            {
+              "name": "chapterCount"
+            },
+            {
+              "name": "broadcastInterval"
+            },
+            {
+              "name": "episodeDuration"
+            },
+            {
+              "name": "rating"
+            },
+            {
+              "name": "studios"
+            },
+            {
+              "name": "relatedShows"
+            },
+            {
+              "name": "relatedMangas"
+            },
+            {
+              "name": "characters"
+            },
+            {
+              "name": "nextAiringEpisode"
+            },
+            {
+              "name": "determinedInterval"
+            },
+            {
+              "name": "lastEpisodeDate"
+            },
+            {
+              "name": "lastEpisodeTimestamp"
+            },
+            {
+              "name": "lastEpisodeInfo"
+            },
+            {
+              "name": "lastChapterDate"
+            },
+            {
+              "name": "lastChapterTimestamp"
+            },
+            {
+              "name": "lastChapterInfo"
+            },
+            {
+              "name": "availableChapters"
+            },
+            {
+              "name": "availableChaptersDetail"
+            },
+            {
+              "name": "availableEpisodes"
+            },
+            {
+              "name": "availableEpisodesDetail"
+            },
+            {
+              "name": "searchFragments"
+            },
+            {
+              "name": "firstCharacters"
+            },
+            {
+              "name": "slugTime"
+            }
+          ]
+        },
+        {
+          "name": "VaildTranslationTypeEnumType",
+          "fields": null
+        },
+        {
+          "name": "VaildCountryOriginEnumType",
+          "fields": null
+        },
+        {
+          "name": "ShowsConnection",
+          "fields": [
+            {
+              "name": "edges"
+            },
+            {
+              "name": "pageInfo"
+            }
+          ]
+        },
+        {
+          "name": "Show",
+          "fields": [
+            {
+              "name": "_id"
+            },
+            {
+              "name": "updateQueue"
+            },
+            {
+              "name": "isAdult"
+            },
+            {
+              "name": "manualUpdated"
+            },
+            {
+              "name": "dailyUpdateNeeded"
+            },
+            {
+              "name": "hidden"
+            },
+            {
+              "name": "lastUpdateStart"
+            },
+            {
+              "name": "lastUpdateEnd"
+            },
+            {
+              "name": "name"
+            },
+            {
+              "name": "englishName"
+            },
+            {
+              "name": "nativeName"
+            },
+            {
+              "name": "nameOnlyString"
+            },
+            {
+              "name": "countryOfOrigin"
+            },
+            {
+              "name": "malId"
+            },
+            {
+              "name": "aniListId"
+            },
+            {
+              "name": "status"
+            },
+            {
+              "name": "altNames"
+            },
+            {
+              "name": "trustedAltNames"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "prevideos"
+            },
+            {
+              "name": "thumbnail"
+            },
+            {
+              "name": "banner"
+            },
+            {
+              "name": "thumbnails"
+            },
+            {
+              "name": "musics"
+            },
+            {
+              "name": "score"
+            },
+            {
+              "name": "type"
+            },
+            {
+              "name": "averageScore"
+            },
+            {
+              "name": "genres"
+            },
+            {
+              "name": "tags"
+            },
+            {
+              "name": "popularity"
+            },
+            {
+              "name": "airedStart"
+            },
+            {
+              "name": "airedEnd"
+            },
+            {
+              "name": "season"
+            },
+            {
+              "name": "rating"
+            },
+            {
+              "name": "broadcastInterval"
+            },
+            {
+              "name": "relatedShows"
+            },
+            {
+              "name": "relatedMangas"
+            },
+            {
+              "name": "characters"
+            },
+            {
+              "name": "pageStatus"
+            },
+            {
+              "name": "determinedInterval"
+            },
+            {
+              "name": "slugTime"
+            },
+            {
+              "name": "episodeCount"
+            },
+            {
+              "name": "episodeDuration"
+            },
+            {
+              "name": "studios"
+            },
+            {
+              "name": "nextAiringEpisode"
+            },
+            {
+              "name": "lastEpisodeDate"
+            },
+            {
+              "name": "lastEpisodeTimestamp"
+            },
+            {
+              "name": "lastEpisodeInfo"
+            },
+            {
+              "name": "availableEpisodes"
+            },
+            {
+              "name": "availableEpisodesDetail"
+            },
+            {
+              "name": "disqusIds"
+            }
+          ]
+        },
+        {
+          "name": "PageStatus",
+          "fields": [
+            {
+              "name": "_id"
+            },
+            {
+              "name": "showId"
+            },
+            {
+              "name": "episodeId"
+            },
+            {
+              "name": "thumbnail"
+            },
+            {
+              "name": "notes"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "translationType"
+            },
+            {
+              "name": "rangeViews"
+            },
+            {
+              "name": "isManga"
+            },
+            {
+              "name": "lastUpdateStart"
+            },
+            {
+              "name": "lastUpdateEnd"
+            },
+            {
+              "name": "pageId"
+            },
+            {
+              "name": "isAdult"
+            },
+            {
+              "name": "reports"
+            },
+            {
+              "name": "views"
+            },
+            {
+              "name": "likesCount"
+            },
+            {
+              "name": "commentCount"
+            },
+            {
+              "name": "dislikesCount"
+            },
+            {
+              "name": "userScoreCount"
+            },
+            {
+              "name": "reviewCount"
+            },
+            {
+              "name": "userScoreTotalValue"
+            },
+            {
+              "name": "userScoreAverValue"
+            },
+            {
+              "name": "viewers"
+            },
+            {
+              "name": "pgRelation"
+            }
+          ]
+        },
+        {
+          "name": "Report",
+          "fields": [
+            {
+              "name": "problem"
+            },
+            {
+              "name": "email"
+            },
+            {
+              "name": "describing"
+            },
+            {
+              "name": "userId"
+            },
+            {
+              "name": "date"
+            }
+          ]
+        },
+        {
+          "name": "PageInfo",
+          "fields": [
+            {
+              "name": "hasNextPage"
+            },
+            {
+              "name": "nextPage"
+            },
+            {
+              "name": "prevPage"
+            },
+            {
+              "name": "total"
+            },
+            {
+              "name": "offset"
+            },
+            {
+              "name": "limit"
+            },
+            {
+              "name": "totalPages"
+            },
+            {
+              "name": "page"
+            },
+            {
+              "name": "hasPrevPage"
+            }
+          ]
+        },
+        {
+          "name": "VaildTranslationTypeMangaEnumType",
+          "fields": null
+        },
+        {
+          "name": "VaildMangaFormatEnumType",
+          "fields": null
+        },
+        {
+          "name": "MangasConnection",
+          "fields": [
+            {
+              "name": "edges"
+            },
+            {
+              "name": "pageInfo"
+            }
+          ]
+        },
+        {
+          "name": "Manga",
+          "fields": [
+            {
+              "name": "_id"
+            },
+            {
+              "name": "updateQueue"
+            },
+            {
+              "name": "isAdult"
+            },
+            {
+              "name": "manualUpdated"
+            },
+            {
+              "name": "dailyUpdateNeeded"
+            },
+            {
+              "name": "hidden"
+            },
+            {
+              "name": "lastUpdateStart"
+            },
+            {
+              "name": "lastUpdateEnd"
+            },
+            {
+              "name": "name"
+            },
+            {
+              "name": "englishName"
+            },
+            {
+              "name": "nativeName"
+            },
+            {
+              "name": "nameOnlyString"
+            },
+            {
+              "name": "countryOfOrigin"
+            },
+            {
+              "name": "malId"
+            },
+            {
+              "name": "aniListId"
+            },
+            {
+              "name": "status"
+            },
+            {
+              "name": "altNames"
+            },
+            {
+              "name": "trustedAltNames"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "prevideos"
+            },
+            {
+              "name": "thumbnail"
+            },
+            {
+              "name": "banner"
+            },
+            {
+              "name": "thumbnails"
+            },
+            {
+              "name": "musics"
+            },
+            {
+              "name": "score"
+            },
+            {
+              "name": "type"
+            },
+            {
+              "name": "averageScore"
+            },
+            {
+              "name": "genres"
+            },
+            {
+              "name": "tags"
+            },
+            {
+              "name": "popularity"
+            },
+            {
+              "name": "airedStart"
+            },
+            {
+              "name": "airedEnd"
+            },
+            {
+              "name": "season"
+            },
+            {
+              "name": "rating"
+            },
+            {
+              "name": "broadcastInterval"
+            },
+            {
+              "name": "relatedShows"
+            },
+            {
+              "name": "relatedMangas"
+            },
+            {
+              "name": "characters"
+            },
+            {
+              "name": "pageStatus"
+            },
+            {
+              "name": "determinedInterval"
+            },
+            {
+              "name": "slugTime"
+            },
+            {
+              "name": "chapterCount"
+            },
+            {
+              "name": "volumes"
+            },
+            {
+              "name": "magazine"
+            },
+            {
+              "name": "authors"
+            },
+            {
+              "name": "lastChapterDate"
+            },
+            {
+              "name": "lastChapterTimestamp"
+            },
+            {
+              "name": "lastChapterInfo"
+            },
+            {
+              "name": "availableChapters"
+            },
+            {
+              "name": "availableChaptersDetail"
+            }
+          ]
+        },
+        {
+          "name": "EpisodesConnection",
+          "fields": [
+            {
+              "name": "edges"
+            },
+            {
+              "name": "pageInfo"
+            }
+          ]
+        },
+        {
+          "name": "Episode",
+          "fields": [
+            {
+              "name": "_id"
+            },
+            {
+              "name": "showId"
+            },
+            {
+              "name": "episodeString"
+            },
+            {
+              "name": "episodeNumStart"
+            },
+            {
+              "name": "episodeNumEnd"
+            },
+            {
+              "name": "notes"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "episodeAiredDateString"
+            },
+            {
+              "name": "translationType"
+            },
+            {
+              "name": "sourceUrls"
+            },
+            {
+              "name": "thumbnail"
+            },
+            {
+              "name": "videoUrlProcessed"
+            },
+            {
+              "name": "downloadQueue"
+            },
+            {
+              "name": "uploadDate"
+            },
+            {
+              "name": "show"
+            },
+            {
+              "name": "versionFix"
+            },
+            {
+              "name": "episodeInfo"
+            },
+            {
+              "name": "pageStatus"
+            }
+          ]
+        },
+        {
+          "name": "EpisodeInfo",
+          "fields": [
+            {
+              "name": "_id"
+            },
+            {
+              "name": "notes"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "pictureUrlsProcessed"
+            },
+            {
+              "name": "isManga"
+            },
+            {
+              "name": "thumbnails"
+            },
+            {
+              "name": "uploadDates"
+            },
+            {
+              "name": "showId"
+            },
+            {
+              "name": "episodeIdNum"
+            },
+            {
+              "name": "vidInforssub"
+            },
+            {
+              "name": "vidInforsdub"
+            },
+            {
+              "name": "vidInforsraw"
+            }
+          ]
+        },
+        {
+          "name": "ChaptersConnection",
+          "fields": [
+            {
+              "name": "edges"
+            },
+            {
+              "name": "pageInfo"
+            },
+            {
+              "name": "pageStatus"
+            },
+            {
+              "name": "manga"
+            }
+          ]
+        },
+        {
+          "name": "Chapter",
+          "fields": [
+            {
+              "name": "_id"
+            },
+            {
+              "name": "mangaId"
+            },
+            {
+              "name": "chapterString"
+            },
+            {
+              "name": "chapterNumStart"
+            },
+            {
+              "name": "chapterNumEnd"
+            },
+            {
+              "name": "notes"
+            },
+            {
+              "name": "chapterAiredDateString"
+            },
+            {
+              "name": "volume"
+            },
+            {
+              "name": "translationType"
+            },
+            {
+              "name": "thumbnail"
+            },
+            {
+              "name": "videoUrlProcessed"
+            },
+            {
+              "name": "downloadQueue"
+            },
+            {
+              "name": "uploadDate"
+            },
+            {
+              "name": "pictureUrls"
+            },
+            {
+              "name": "pictureUrlsProcessed"
+            },
+            {
+              "name": "streamerId"
+            },
+            {
+              "name": "sourceName"
+            },
+            {
+              "name": "sourceUrl"
+            },
+            {
+              "name": "versionFix"
+            },
+            {
+              "name": "pictureUrlHead"
+            },
+            {
+              "name": "priority"
+            },
+            {
+              "name": "pictureServers"
+            }
+          ]
+        },
+        {
+          "name": "Character",
+          "fields": [
+            {
+              "name": "_id"
+            },
+            {
+              "name": "aniListId"
+            },
+            {
+              "name": "showId"
+            },
+            {
+              "name": "mangaId"
+            },
+            {
+              "name": "lastUpdateStart"
+            },
+            {
+              "name": "lastUpdateEnd"
+            },
+            {
+              "name": "name"
+            },
+            {
+              "name": "altNames"
+            },
+            {
+              "name": "thumbnails"
+            },
+            {
+              "name": "image"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "searchFragments"
+            },
+            {
+              "name": "firstCharacters"
+            },
+            {
+              "name": "views"
+            },
+            {
+              "name": "likesCount"
+            },
+            {
+              "name": "commentCount"
+            },
+            {
+              "name": "dislikesCount"
+            },
+            {
+              "name": "userScoreCount"
+            },
+            {
+              "name": "reviewCount"
+            },
+            {
+              "name": "userScoreTotalValue"
+            },
+            {
+              "name": "userScoreAverValue"
+            },
+            {
+              "name": "viewers"
+            },
+            {
+              "name": "pgRelation"
+            }
+          ]
+        },
+        {
+          "name": "Stuff",
+          "fields": [
+            {
+              "name": "_id"
+            },
+            {
+              "name": "aniListId"
+            },
+            {
+              "name": "lastUpdateStart"
+            },
+            {
+              "name": "lastUpdateEnd"
+            },
+            {
+              "name": "name"
+            },
+            {
+              "name": "image"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "voiceActingShows"
+            }
+          ]
+        },
+        {
+          "name": "MusicSearchInput",
+          "fields": null
+        },
+        {
+          "name": "MusicsConnection",
+          "fields": [
+            {
+              "name": "edges"
+            },
+            {
+              "name": "pageInfo"
+            }
+          ]
+        },
+        {
+          "name": "Music",
+          "fields": [
+            {
+              "name": "_id"
+            },
+            {
+              "name": "fileName"
+            },
+            {
+              "name": "musicTitle"
+            },
+            {
+              "name": "type"
+            },
+            {
+              "name": "slug"
+            },
+            {
+              "name": "artist"
+            },
+            {
+              "name": "show"
+            },
+            {
+              "name": "cover"
+            },
+            {
+              "name": "format"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "duration"
+            },
+            {
+              "name": "album"
+            },
+            {
+              "name": "musicUrls"
+            },
+            {
+              "name": "recommendation"
+            },
+            {
+              "name": "size"
+            },
+            {
+              "name": "content_type"
+            },
+            {
+              "name": "editDate"
+            },
+            {
+              "name": "createdDate"
+            },
+            {
+              "name": "listeners"
+            },
+            {
+              "name": "listens"
+            },
+            {
+              "name": "lyrics"
+            },
+            {
+              "name": "likes"
+            },
+            {
+              "name": "likesCount"
+            },
+            {
+              "name": "dislikesCount"
+            },
+            {
+              "name": "dislikes"
+            },
+            {
+              "name": "lastUpdateStart"
+            },
+            {
+              "name": "lastUpdateEnd"
+            },
+            {
+              "name": "rangeListens"
+            }
+          ]
+        },
+        {
+          "name": "ShowForMusic",
+          "fields": [
+            {
+              "name": "showId"
+            },
+            {
+              "name": "name"
+            },
+            {
+              "name": "nativeName"
+            },
+            {
+              "name": "thumbnail"
+            }
+          ]
+        },
+        {
+          "name": "Listenter",
+          "fields": [
+            {
+              "name": "userId"
+            },
+            {
+              "name": "listenCount"
+            },
+            {
+              "name": "lastListenedDate"
+            }
+          ]
+        },
+        {
+          "name": "Playlist",
+          "fields": [
+            {
+              "name": "_id"
+            },
+            {
+              "name": "format"
+            },
+            {
+              "name": "userId"
+            },
+            {
+              "name": "userName"
+            },
+            {
+              "name": "userAvatar"
+            },
+            {
+              "name": "user"
+            },
+            {
+              "name": "title"
+            },
+            {
+              "name": "createdDate"
+            },
+            {
+              "name": "modifiedDate"
+            },
+            {
+              "name": "cover"
+            },
+            {
+              "name": "firstItemId"
+            },
+            {
+              "name": "itemCount"
+            },
+            {
+              "name": "privacy"
+            },
+            {
+              "name": "lastActionDate"
+            },
+            {
+              "name": "favList"
+            },
+            {
+              "name": "favListCount"
+            },
+            {
+              "name": "views"
+            }
+          ]
+        },
+        {
+          "name": "VaildPlaylistEnumType",
+          "fields": null
+        },
+        {
+          "name": "VaildPrivacyEnumType",
+          "fields": null
+        },
+        {
+          "name": "FavEntity",
+          "fields": [
+            {
+              "name": "userId"
+            },
+            {
+              "name": "addedDate"
+            }
+          ]
+        },
+        {
+          "name": "PlaylistResponse",
+          "fields": [
+            {
+              "name": "edges"
+            },
+            {
+              "name": "pageInfo"
+            }
+          ]
+        },
+        {
+          "name": "UserPlaylistsSearch",
+          "fields": null
+        },
+        {
+          "name": "SortByPlaylists",
+          "fields": null
+        },
+        {
+          "name": "MyOwnPlaylistResponse",
+          "fields": [
+            {
+              "name": "edges"
+            },
+            {
+              "name": "pageInfo"
+            }
+          ]
+        },
+        {
+          "name": "MyPlaylist",
+          "fields": [
+            {
+              "name": "_id"
+            },
+            {
+              "name": "format"
+            },
+            {
+              "name": "userId"
+            },
+            {
+              "name": "userName"
+            },
+            {
+              "name": "userAvatar"
+            },
+            {
+              "name": "user"
+            },
+            {
+              "name": "title"
+            },
+            {
+              "name": "createdDate"
+            },
+            {
+              "name": "modifiedDate"
+            },
+            {
+              "name": "cover"
+            },
+            {
+              "name": "firstItemId"
+            },
+            {
+              "name": "itemCount"
+            },
+            {
+              "name": "privacy"
+            },
+            {
+              "name": "lastActionDate"
+            },
+            {
+              "name": "favList"
+            },
+            {
+              "name": "favListCount"
+            },
+            {
+              "name": "views"
+            }
+          ]
+        },
+        {
+          "name": "PageInput",
+          "fields": null
+        },
+        {
+          "name": "queryPageInput",
+          "fields": null
+        },
+        {
+          "name": "VaildPopularTypeEnumType",
+          "fields": null
+        },
+        {
+          "name": "VaildRecommendationEnumType",
+          "fields": null
+        },
+        {
+          "name": "RecommendationsResponse",
+          "fields": [
+            {
+              "name": "total"
+            },
+            {
+              "name": "recommendations"
+            }
+          ]
+        },
+        {
+          "name": "Recommendation",
+          "fields": [
+            {
+              "name": "pageStatus"
+            },
+            {
+              "name": "anyCard"
+            },
+            {
+              "name": "isManga"
+            }
+          ]
+        },
+        {
+          "name": "PageRelationResponse",
+          "fields": [
+            {
+              "name": "myPage"
+            }
+          ]
+        },
+        {
+          "name": "PageRelationLikesResponse",
+          "fields": [
+            {
+              "name": "myLikes"
+            }
+          ]
+        },
+        {
+          "name": "PageRelationLikes",
+          "fields": [
+            {
+              "name": "_id"
+            },
+            {
+              "name": "format"
+            },
+            {
+              "name": "showId"
+            },
+            {
+              "name": "userId"
+            },
+            {
+              "name": "like"
+            },
+            {
+              "name": "dislike"
+            }
+          ]
+        },
+        {
+          "name": "VaildPageRelationLikesFormatEnumType",
+          "fields": null
+        },
+        {
+          "name": "CommentsSearch",
+          "fields": null
+        },
+        {
+          "name": "CommentResponse",
+          "fields": [
+            {
+              "name": "edges"
+            },
+            {
+              "name": "pageInfo"
+            }
+          ]
+        },
+        {
+          "name": "Comment",
+          "fields": [
+            {
+              "name": "_id"
+            },
+            {
+              "name": "comment"
+            },
+            {
+              "name": "referenceId"
+            },
+            {
+              "name": "replyTo"
+            },
+            {
+              "name": "userId"
+            },
+            {
+              "name": "user"
+            },
+            {
+              "name": "myLike"
+            },
+            {
+              "name": "format"
+            }
+          ]
+        },
+        {
+          "name": "ReviewsSearch",
+          "fields": null
+        },
+        {
+          "name": "ReviewResponse",
+          "fields": [
+            {
+              "name": "edges"
+            },
+            {
+              "name": "pageInfo"
+            }
+          ]
+        },
+        {
+          "name": "Review",
+          "fields": [
+            {
+              "name": "_id"
+            },
+            {
+              "name": "comment"
+            },
+            {
+              "name": "uScore"
+            },
+            {
+              "name": "user"
+            },
+            {
+              "name": "userId"
+            },
+            {
+              "name": "showId"
+            },
+            {
+              "name": "episodeIdNum"
+            },
+            {
+              "name": "language"
+            },
+            {
+              "name": "myLike"
+            },
+            {
+              "name": "views"
+            },
+            {
+              "name": "format"
+            },
+            {
+              "name": "relatedItem"
+            }
+          ]
+        },
+        {
+          "name": "UserReviewsSearch",
+          "fields": null
+        },
+        {
+          "name": "UserCommentsSearch",
+          "fields": null
+        },
+        {
+          "name": "UserActivitiesSearch",
+          "fields": null
+        },
+        {
+          "name": "ValidActivityTypeEnumType",
+          "fields": null
+        },
+        {
+          "name": "ActivityResponse",
+          "fields": [
+            {
+              "name": "edges"
+            },
+            {
+              "name": "pageInfo"
+            }
+          ]
+        },
+        {
+          "name": "WatchState",
+          "fields": [
+            {
+              "name": "_id"
+            },
+            {
+              "name": "showId"
+            },
+            {
+              "name": "watchingCount"
+            },
+            {
+              "name": "droppedCount"
+            },
+            {
+              "name": "completedCount"
+            },
+            {
+              "name": "plannedCount"
+            },
+            {
+              "name": "heldCount"
+            },
+            {
+              "name": "isManga"
+            },
+            {
+              "name": "watching"
+            },
+            {
+              "name": "dropped"
+            },
+            {
+              "name": "planned"
+            },
+            {
+              "name": "completed"
+            },
+            {
+              "name": "held"
+            },
+            {
+              "name": "lastEpisodeTimestamp"
+            },
+            {
+              "name": "showName"
+            },
+            {
+              "name": "lastEpisodeInfo"
+            }
+          ]
+        },
+        {
+          "name": "WatchingEntity",
+          "fields": [
+            {
+              "name": "userId"
+            },
+            {
+              "name": "addedDate"
+            }
+          ]
+        },
+        {
+          "name": "VaildWatchingCardTypeEnumType",
+          "fields": null
+        },
+        {
+          "name": "VaildWatchingEnumType",
+          "fields": null
+        },
+        {
+          "name": "SortByWatchState",
+          "fields": null
+        },
+        {
+          "name": "WatchListResponse",
+          "fields": [
+            {
+              "name": "edges"
+            },
+            {
+              "name": "pageInfo"
+            }
+          ]
+        },
+        {
+          "name": "Overview",
+          "fields": [
+            {
+              "name": "anyCard"
+            },
+            {
+              "name": "isManga"
+            },
+            {
+              "name": "watchState"
+            },
+            {
+              "name": "pgRelation"
+            }
+          ]
+        },
+        {
+          "name": "UserListInput",
+          "fields": null
+        },
+        {
+          "name": "USER_LIST_SORT_FORMAT",
+          "fields": null
+        },
+        {
+          "name": "VAILD_USER_SORT_BY",
+          "fields": null
+        },
+        {
+          "name": "UsersConnection",
+          "fields": [
+            {
+              "name": "edges"
+            },
+            {
+              "name": "pageInfo"
+            }
+          ]
+        },
+        {
+          "name": "TagSearchInput",
+          "fields": null
+        },
+        {
+          "name": "TagSearchType",
+          "fields": null
+        },
+        {
+          "name": "TagsConnection",
+          "fields": [
+            {
+              "name": "edges"
+            },
+            {
+              "name": "pageInfo"
+            }
+          ]
+        },
+        {
+          "name": "Tag",
+          "fields": [
+            {
+              "name": "_id"
+            },
+            {
+              "name": "name"
+            },
+            {
+              "name": "anime"
+            },
+            {
+              "name": "manga"
+            },
+            {
+              "name": "episode"
+            },
+            {
+              "name": "chapter"
+            },
+            {
+              "name": "other"
+            },
+            {
+              "name": "sampleAnime"
+            },
+            {
+              "name": "animeCount"
+            },
+            {
+              "name": "mangaCount"
+            },
+            {
+              "name": "sampleManga"
+            },
+            {
+              "name": "tagType"
+            },
+            {
+              "name": "slug"
+            },
+            {
+              "name": "views"
+            },
+            {
+              "name": "viewers"
+            },
+            {
+              "name": "likesCount"
+            },
+            {
+              "name": "likes"
+            },
+            {
+              "name": "dislikesCount"
+            },
+            {
+              "name": "dislikes"
+            }
+          ]
+        },
+        {
+          "name": "ListForTagInput",
+          "fields": null
+        },
+        {
+          "name": "TagType",
+          "fields": null
+        },
+        {
+          "name": "TagListRecommendationsResponse",
+          "fields": [
+            {
+              "name": "edges"
+            },
+            {
+              "name": "pageInfo"
+            }
+          ]
+        },
+        {
+          "name": "Mutation",
+          "fields": [
+            {
+              "name": "createUser"
+            },
+            {
+              "name": "verifyEmail"
+            },
+            {
+              "name": "resetPassword"
+            },
+            {
+              "name": "sendVerificationEmail"
+            },
+            {
+              "name": "sendResetPasswordEmail"
+            },
+            {
+              "name": "addEmail"
+            },
+            {
+              "name": "changePassword"
+            },
+            {
+              "name": "twoFactorSet"
+            },
+            {
+              "name": "twoFactorUnset"
+            },
+            {
+              "name": "impersonate"
+            },
+            {
+              "name": "refreshTokens"
+            },
+            {
+              "name": "logout"
+            },
+            {
+              "name": "authenticate"
+            },
+            {
+              "name": "verifyAuthentication"
+            },
+            {
+              "name": "listenMusic"
+            },
+            {
+              "name": "createPlaylist"
+            },
+            {
+              "name": "addPlayId"
+            },
+            {
+              "name": "editPlaylist"
+            },
+            {
+              "name": "toggleFavPlaylist"
+            },
+            {
+              "name": "removePlayId"
+            },
+            {
+              "name": "viewPage"
+            },
+            {
+              "name": "likePage"
+            },
+            {
+              "name": "scorePage"
+            },
+            {
+              "name": "dislikePage"
+            },
+            {
+              "name": "reportProblem"
+            },
+            {
+              "name": "reviewPage"
+            },
+            {
+              "name": "createComment"
+            },
+            {
+              "name": "updateComment"
+            },
+            {
+              "name": "editReview"
+            },
+            {
+              "name": "deleteComment"
+            },
+            {
+              "name": "likeDislikeComment"
+            },
+            {
+              "name": "toggleWatching"
+            },
+            {
+              "name": "changeWatching"
+            },
+            {
+              "name": "changeCurrentOnlineState"
+            },
+            {
+              "name": "resumeLogin"
+            },
+            {
+              "name": "deleteAccount"
+            },
+            {
+              "name": "changeProfile"
+            },
+            {
+              "name": "resendVerificationLink"
+            },
+            {
+              "name": "toggleAppsAccessbility"
+            }
+          ]
+        },
+        {
+          "name": "CreateUserInput",
+          "fields": null
+        },
+        {
+          "name": "CreateUserResult",
+          "fields": [
+            {
+              "name": "userId"
+            },
+            {
+              "name": "loginResult"
+            }
+          ]
+        },
+        {
+          "name": "LoginResult",
+          "fields": [
+            {
+              "name": "sessionId"
+            },
+            {
+              "name": "tokens"
+            },
+            {
+              "name": "user"
+            }
+          ]
+        },
+        {
+          "name": "Tokens",
+          "fields": [
+            {
+              "name": "refreshToken"
+            },
+            {
+              "name": "accessToken"
+            }
+          ]
+        },
+        {
+          "name": "TwoFactorSecretKeyInput",
+          "fields": null
+        },
+        {
+          "name": "ImpersonationUserIdentityInput",
+          "fields": null
+        },
+        {
+          "name": "ImpersonateReturn",
+          "fields": [
+            {
+              "name": "authorized"
+            },
+            {
+              "name": "tokens"
+            },
+            {
+              "name": "user"
+            }
+          ]
+        },
+        {
+          "name": "AuthenticateParamsInput",
+          "fields": null
+        },
+        {
+          "name": "UserInput",
+          "fields": null
+        },
+        {
+          "name": "MusicActionResponse",
+          "fields": [
+            {
+              "name": "success"
+            },
+            {
+              "name": "error"
+            }
+          ]
+        },
+        {
+          "name": "PlaylistActionResponse",
+          "fields": [
+            {
+              "name": "success"
+            },
+            {
+              "name": "playlist"
+            },
+            {
+              "name": "error"
+            }
+          ]
+        },
+        {
+          "name": "Error",
+          "fields": [
+            {
+              "name": "message"
+            },
+            {
+              "name": "code"
+            }
+          ]
+        },
+        {
+          "name": "PageActionResponse",
+          "fields": [
+            {
+              "name": "success"
+            },
+            {
+              "name": "error"
+            },
+            {
+              "name": "fields"
+            }
+          ]
+        },
+        {
+          "name": "UserScore",
+          "fields": null
+        },
+        {
+          "name": "ReportBody",
+          "fields": null
+        },
+        {
+          "name": "CommentBody",
+          "fields": null
+        },
+        {
+          "name": "VaildCommentFormatEnumType",
+          "fields": null
+        },
+        {
+          "name": "VaildStatisticsEnumType",
+          "fields": null
+        },
+        {
+          "name": "ValidLikeDislike",
+          "fields": null
+        },
+        {
+          "name": "WatchingActionResponse",
+          "fields": [
+            {
+              "name": "success"
+            }
+          ]
+        },
+        {
+          "name": "UserOnlineState",
+          "fields": null
+        },
+        {
+          "name": "UserOnlineStatics",
+          "fields": [
+            {
+              "name": "counts"
+            }
+          ]
+        },
+        {
+          "name": "SuccessResponse",
+          "fields": [
+            {
+              "name": "error"
+            },
+            {
+              "name": "success"
+            }
+          ]
+        },
+        {
+          "name": "UserProfileInput",
+          "fields": null
+        },
+        {
+          "name": "AppSettings",
+          "fields": [
+            {
+              "name": "type"
+            },
+            {
+              "name": "value"
+            }
+          ]
+        },
+        {
+          "name": "Subscription",
+          "fields": [
+            {
+              "name": "_"
+            },
+            {
+              "name": "newEpisodeAdded"
+            },
+            {
+              "name": "userOnlineStatusChanged"
+            }
+          ]
+        },
+        {
+          "name": "NotificationType",
+          "fields": null
+        },
+        {
+          "name": "Message",
+          "fields": [
+            {
+              "name": "date"
+            },
+            {
+              "name": "data"
+            },
+            {
+              "name": "title"
+            },
+            {
+              "name": "content"
+            },
+            {
+              "name": "duration"
+            },
+            {
+              "name": "type"
+            }
+          ]
+        },
+        {
+          "name": "__Schema",
+          "fields": [
+            {
+              "name": "types"
+            },
+            {
+              "name": "queryType"
+            },
+            {
+              "name": "mutationType"
+            },
+            {
+              "name": "subscriptionType"
+            },
+            {
+              "name": "directives"
+            }
+          ]
+        },
+        {
+          "name": "__Type",
+          "fields": [
+            {
+              "name": "kind"
+            },
+            {
+              "name": "name"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "fields"
+            },
+            {
+              "name": "interfaces"
+            },
+            {
+              "name": "possibleTypes"
+            },
+            {
+              "name": "enumValues"
+            },
+            {
+              "name": "inputFields"
+            },
+            {
+              "name": "ofType"
+            }
+          ]
+        },
+        {
+          "name": "__TypeKind",
+          "fields": null
+        },
+        {
+          "name": "__Field",
+          "fields": [
+            {
+              "name": "name"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "args"
+            },
+            {
+              "name": "type"
+            },
+            {
+              "name": "isDeprecated"
+            },
+            {
+              "name": "deprecationReason"
+            }
+          ]
+        },
+        {
+          "name": "__InputValue",
+          "fields": [
+            {
+              "name": "name"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "type"
+            },
+            {
+              "name": "defaultValue"
+            }
+          ]
+        },
+        {
+          "name": "__EnumValue",
+          "fields": [
+            {
+              "name": "name"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "isDeprecated"
+            },
+            {
+              "name": "deprecationReason"
+            }
+          ]
+        },
+        {
+          "name": "__Directive",
+          "fields": [
+            {
+              "name": "name"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "locations"
+            },
+            {
+              "name": "args"
+            }
+          ]
+        },
+        {
+          "name": "__DirectiveLocation",
+          "fields": null
+        },
+        {
+          "name": "VaildTypesEnumType",
+          "fields": null
+        },
+        {
+          "name": "ValidActionType",
+          "fields": null
+        },
+        {
+          "name": "VaildSerivesEnumType",
+          "fields": null
+        },
+        {
+          "name": "Image",
+          "fields": [
+            {
+              "name": "medium"
+            },
+            {
+              "name": "large"
+            }
+          ]
+        },
+        {
+          "name": "MusicResponse",
+          "fields": [
+            {
+              "name": "musicsLinks"
+            },
+            {
+              "name": "resultMusics"
+            }
+          ]
+        },
+        {
+          "name": "CommentEditted",
+          "fields": [
+            {
+              "name": "times"
+            },
+            {
+              "name": "date"
+            },
+            {
+              "name": "from"
+            }
+          ]
+        },
+        {
+          "name": "ScoreUser",
+          "fields": [
+            {
+              "name": "userId"
+            },
+            {
+              "name": "scoreValue"
+            },
+            {
+              "name": "scoreDate"
+            },
+            {
+              "name": "comments"
+            }
+          ]
+        },
+        {
+          "name": "MessageNotificationLevel",
+          "fields": null
+        },
+        {
+          "name": "Token",
+          "fields": [
+            {
+              "name": "token"
+            }
+          ]
+        },
+        {
+          "name": "Badge",
+          "fields": [
+            {
+              "name": "name"
+            },
+            {
+              "name": "rank"
+            },
+            {
+              "name": "date"
+            }
+          ]
+        },
+        {
+          "name": "OnlineChanged",
+          "fields": [
+            {
+              "name": "onlineResult"
+            }
+          ]
+        },
+        {
+          "name": "OnlineResult",
+          "fields": [
+            {
+              "name": "id"
+            }
+          ]
+        },
+        {
+          "name": "AppAccessbility",
+          "fields": [
+            {
+              "name": "appDisabled"
+            },
+            {
+              "name": "appNeedCheckLogin"
+            }
+          ]
+        },
+        {
+          "name": "CacheControlScope",
+          "fields": null
+        },
+        {
+          "name": "Upload",
+          "fields": null
+        },
+        {
+          "name": "DateTime",
+          "fields": null
+        }
+      ]
+    }
+  }
+}
