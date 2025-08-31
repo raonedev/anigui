@@ -45,7 +45,7 @@ class AnimeHomeCard {
 
   AnimeHomeCard.fromJson(dynamic json) {
     _id = json['_id'];
-    _englishName = json['englishName'];
+    _englishName =json['englishName'] ?? json['name'];
     _thumbnail = json['thumbnail'];
     _score = json['score'];
     _type = json['type'];

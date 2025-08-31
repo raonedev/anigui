@@ -35,7 +35,7 @@ class ApiService {
             "countryOrigin": "ALL"
           },
           "query":
-              "query(\$search: SearchInput \$limit: Int \$page: Int \$translationType: VaildTranslationTypeEnumType \$countryOrigin: VaildCountryOriginEnumType) {shows(search: \$search limit: \$limit page: \$page translationType: \$translationType countryOrigin: \$countryOrigin) {edges{_id englishName thumbnail score type genres tags episodeDuration episodeCount status __typename}}}"
+              "query(\$search: SearchInput \$limit: Int \$page: Int \$translationType: VaildTranslationTypeEnumType \$countryOrigin: VaildCountryOriginEnumType) {shows(search: \$search limit: \$limit page: \$page translationType: \$translationType countryOrigin: \$countryOrigin) {edges{_id englishName name thumbnail score type genres tags episodeDuration episodeCount status __typename}}}"
         },
       );
 

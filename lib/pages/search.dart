@@ -99,8 +99,8 @@ class _SearchPageState extends State<SearchPage> {
             )
           : _results.isEmpty
           ?  Center(child: ElevatedButton(onPressed: () async{
-                ApiService _apiService = ApiService();
-                final val = await _apiService.fetchAnimeCards(types: ["TV"]);
+                ApiService apiService = ApiService();
+                final val = await apiService.fetchAnimeCards(types: ["TV"]);
                 val.map(
                   (e) {
                     log(e.englishName.toString());
