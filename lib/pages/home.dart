@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:anigui/pages/search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,37 +31,38 @@ class HomePage extends StatelessWidget {
       backgroundColor: Colors.black,
       body: Stack(
         children: [
+          /// main body
           SingleChildScrollView(
             physics: BouncingScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: kToolbarHeight - 8),
-                _buildSectionTitle(context, 'Special Anime'),
+                BuildSectionTitle(title: 'Special Anime'),
                 _buildAnimeList<AnimeSpecialCubit, AnimeSpecialState>(
                   context,
                   stateSelector: (state) =>
                       state is AnimeSpecialSuccessState ? state.animes : [],
                 ),
-                _buildSectionTitle(context, 'TV Anime'),
+                BuildSectionTitle(title: 'TV Anime',),
                 _buildAnimeList<AnimeTvCubit, AnimeTvState>(
                   context,
                   stateSelector: (state) =>
                       state is AnimeTvSuccessState ? state.animes : [],
                 ),
-                _buildSectionTitle(context, 'Movie Anime'),
+                BuildSectionTitle(title: 'Movie Anime',),
                 _buildAnimeList<AnimeMovieCubit, AnimeMovieState>(
                   context,
                   stateSelector: (state) =>
                       state is AnimeMovieSuccessState ? state.animes : [],
                 ),
-                _buildSectionTitle(context, 'OVA Anime'),
+                BuildSectionTitle(title: 'OVA Anime',),
                 _buildAnimeList<AnimeOvaCubit, AnimeOvaState>(
                   context,
                   stateSelector: (state) =>
                       state is AnimeOvaSuccessState ? state.animes : [],
                 ),
-                _buildSectionTitle(context, 'ONA Anime'),
+                BuildSectionTitle(title: 'ONA Anime',),
                 _buildAnimeList<AnimeOnaCubit, AnimeOnaState>(
                   context,
                   stateSelector: (state) =>
@@ -70,6 +72,7 @@ class HomePage extends StatelessWidget {
             ),
           ),
 
+          /// bottombar
           Positioned(
             bottom: 0,
             left: 0,
@@ -90,7 +93,10 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0,
+                        vertical: 8,
+                      ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -112,21 +118,27 @@ class HomePage extends StatelessWidget {
                             ],
                           ),
                           SizedBox(),
-                          Column(
-                            children: [
-                               HugeIcon(
-                              icon: HugeIcons.strokeRoundedSearch01,
-                              color: Colors.white,
+                          InkWell(
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (_) => SearchPage()),
                             ),
-                            Text(
-                              "Search",
-                              style: Theme.of(context).textTheme.bodyMedium
-                                  ?.copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                            child: Column(
+                              children: [
+                                HugeIcon(
+                                  icon: HugeIcons.strokeRoundedSearch01,
+                                  color: Colors.white,
+                                ),
+                                Text(
+                                  "Search",
+                                  style: Theme.of(context).textTheme.bodyMedium
+                                      ?.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                ),
+                              ],
                             ),
-                            ],
                           ),
                         ],
                       ),
@@ -137,19 +149,6 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildSectionTitle(BuildContext context, String title) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-      child: Text(
-        title,
-        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-          fontWeight: FontWeight.bold,
-          color: Theme.of(context).colorScheme.onSecondary,
-        ),
       ),
     );
   }
@@ -224,13 +223,13 @@ class HomePage extends StatelessWidget {
                 },
               );
             }
-      
+
             final animes = stateSelector(state);
-      
+
             if (animes.isEmpty) {
               return const Center(child: Text('No anime available'));
             }
-      
+
             return ListView.builder(
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -241,6 +240,25 @@ class HomePage extends StatelessWidget {
               },
             );
           },
+        ),
+      ),
+    );
+  }
+}
+
+class BuildSectionTitle extends StatelessWidget {
+  const BuildSectionTitle({super.key, required this.title});
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+      child: Text(
+        title,
+        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+          fontWeight: FontWeight.bold,
+          color: Theme.of(context).colorScheme.onSecondary,
         ),
       ),
     );
