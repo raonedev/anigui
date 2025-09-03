@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:anigui/pages/anime_detail.dart';
-import 'package:anigui/services/home_api_service.dart';
+import 'package:anigui/services/http_api_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -100,7 +100,7 @@ class _SearchPageState extends State<SearchPage> {
           : _results.isEmpty
           ?  Center(child: ElevatedButton(onPressed: () async{
                 ApiService apiService = ApiService();
-                final val = await apiService.fetchAnimeCards(types: ["TV"]);
+                final val = await apiService.fetchAnimeByTypes(types: ["TV"]);
                 val.map(
                   (e) {
                     log(e.englishName.toString());

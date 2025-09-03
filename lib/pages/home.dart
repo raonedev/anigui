@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:anigui/pages/search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,6 +13,7 @@ import '../blocs/home_cubits/special/cubit/anime_special_cubit.dart';
 import '../blocs/home_cubits/tv_shows/cubit/anime_tv_cubit.dart';
 import '../common/anime_card.dart';
 import '../models/anime_home_card.dart';
+import 'anime_search.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -38,30 +38,35 @@ class HomePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: kToolbarHeight - 8),
+                
                 BuildSectionTitle(title: 'Special Anime'),
                 _buildAnimeList<AnimeSpecialCubit, AnimeSpecialState>(
                   context,
                   stateSelector: (state) =>
                       state is AnimeSpecialSuccessState ? state.animes : [],
                 ),
+                
                 BuildSectionTitle(title: 'TV Anime',),
                 _buildAnimeList<AnimeTvCubit, AnimeTvState>(
                   context,
                   stateSelector: (state) =>
                       state is AnimeTvSuccessState ? state.animes : [],
                 ),
+                
                 BuildSectionTitle(title: 'Movie Anime',),
                 _buildAnimeList<AnimeMovieCubit, AnimeMovieState>(
                   context,
                   stateSelector: (state) =>
                       state is AnimeMovieSuccessState ? state.animes : [],
                 ),
+                
                 BuildSectionTitle(title: 'OVA Anime',),
                 _buildAnimeList<AnimeOvaCubit, AnimeOvaState>(
                   context,
                   stateSelector: (state) =>
                       state is AnimeOvaSuccessState ? state.animes : [],
                 ),
+                
                 BuildSectionTitle(title: 'ONA Anime',),
                 _buildAnimeList<AnimeOnaCubit, AnimeOnaState>(
                   context,
@@ -121,7 +126,7 @@ class HomePage extends StatelessWidget {
                           InkWell(
                             onTap: () => Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (_) => SearchPage()),
+                              MaterialPageRoute(builder: (_) => AnimeSearchPage()),
                             ),
                             child: Column(
                               children: [

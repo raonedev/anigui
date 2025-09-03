@@ -1,5 +1,5 @@
 import 'package:anigui/models/anime_home_card.dart';
-import 'package:anigui/services/home_api_service.dart';
+import 'package:anigui/services/http_api_service.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
@@ -12,7 +12,7 @@ class AnimeMovieCubit extends Cubit<AnimeMovieState> {
   Future<void> loadMovieAnime()async{
     try {
       emit(AnimeMovieLoadingState());
-      final result = await _apiService.fetchAnimeCards(types: ['Movie']);
+      final result = await _apiService.fetchAnimeByTypes(types: ['Movie']);
       emit(AnimeMovieSuccessState(animes: result));
     } catch (e) {
       emit(AnimeMovieErrorState(errorMessage: e.toString()));
