@@ -124,7 +124,7 @@ class _SearchPageState extends State<SearchPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => AnimeDetailPage(
+                          builder: (_) => AnimeDetailScreen(
                             animeId: anime["_id"],
                             name: name,
                             description: description,

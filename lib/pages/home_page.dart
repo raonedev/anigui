@@ -13,7 +13,7 @@ import '../blocs/home_cubits/special/cubit/anime_special_cubit.dart';
 import '../blocs/home_cubits/tv_shows/cubit/anime_tv_cubit.dart';
 import '../common/anime_card.dart';
 import '../models/anime_home_card.dart';
-import 'anime_search.dart';
+import 'anime_search_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -38,36 +38,36 @@ class HomePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: kToolbarHeight - 8),
-                
+
                 BuildSectionTitle(title: 'Special Anime'),
                 _buildAnimeList<AnimeSpecialCubit, AnimeSpecialState>(
                   context,
                   stateSelector: (state) =>
                       state is AnimeSpecialSuccessState ? state.animes : [],
                 ),
-                
-                BuildSectionTitle(title: 'TV Anime',),
+
+                BuildSectionTitle(title: 'TV Anime'),
                 _buildAnimeList<AnimeTvCubit, AnimeTvState>(
                   context,
                   stateSelector: (state) =>
                       state is AnimeTvSuccessState ? state.animes : [],
                 ),
-                
-                BuildSectionTitle(title: 'Movie Anime',),
+
+                BuildSectionTitle(title: 'Movie Anime'),
                 _buildAnimeList<AnimeMovieCubit, AnimeMovieState>(
                   context,
                   stateSelector: (state) =>
                       state is AnimeMovieSuccessState ? state.animes : [],
                 ),
-                
-                BuildSectionTitle(title: 'OVA Anime',),
+
+                BuildSectionTitle(title: 'OVA Anime'),
                 _buildAnimeList<AnimeOvaCubit, AnimeOvaState>(
                   context,
                   stateSelector: (state) =>
                       state is AnimeOvaSuccessState ? state.animes : [],
                 ),
-                
-                BuildSectionTitle(title: 'ONA Anime',),
+
+                BuildSectionTitle(title: 'ONA Anime'),
                 _buildAnimeList<AnimeOnaCubit, AnimeOnaState>(
                   context,
                   stateSelector: (state) =>
@@ -77,7 +77,7 @@ class HomePage extends StatelessWidget {
             ),
           ),
 
-          /// bottombar
+          /// bottomBar
           Positioned(
             bottom: 0,
             left: 0,
@@ -126,7 +126,9 @@ class HomePage extends StatelessWidget {
                           InkWell(
                             onTap: () => Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (_) => AnimeSearchPage()),
+                              MaterialPageRoute(
+                                builder: (_) => AnimeSearchPage(),
+                              ),
                             ),
                             child: Column(
                               children: [
@@ -241,7 +243,7 @@ class HomePage extends StatelessWidget {
               itemCount: animes.length,
               itemBuilder: (context, index) {
                 final anime = animes[index];
-                return AnimeCardWidget(anime: anime);
+                return AnimeCardWidget(anime: anime, onTap: () {});
               },
             );
           },

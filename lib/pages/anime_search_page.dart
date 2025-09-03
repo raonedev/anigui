@@ -1,3 +1,4 @@
+import 'package:anigui/pages/anime_detail_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,13 +35,13 @@ class _AnimeSearchPageState extends State<AnimeSearchPage> {
           style: const TextStyle(color: Colors.white),
           placeholder: "Search anime...",
           placeholderStyle: TextStyle(color: Colors.grey[500]),
-          backgroundColor:  Colors.grey[850],
+          backgroundColor: Colors.grey[850],
           onSubmitted: (value) => _onSearch(context),
           itemColor: Colors.white,
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 16,right: 16,bottom: 20),
+        padding: const EdgeInsets.only(left: 16, right: 16, bottom: 20),
         child: BlocBuilder<AnimeSearchCubit, AnimeSearchState>(
           builder: (context, state) {
             if (state is AnimeSearchLoadingState) {
@@ -57,7 +58,10 @@ class _AnimeSearchPageState extends State<AnimeSearchPage> {
                   childAspectRatio: 0.65,
                 ),
                 itemBuilder: (context, index) {
-                  return AnimeCardWidget(anime: state.animes[index],);
+                  return AnimeCardWidget(
+                    anime: state.animes[index],
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_)=>AnimeDetailPage())),
+                  );
                 },
               );
             } else if (state is AnimeSearchEmptyState) {

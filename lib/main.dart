@@ -1,5 +1,5 @@
 import 'package:anigui/blocs/search/cubit/anime_search_cubit.dart';
-import 'package:anigui/pages/home.dart';
+import 'package:anigui/pages/home_page.dart';
 
 import 'blocs/home_cubits/movies/cubit/anime_movie_cubit.dart';
 import 'blocs/home_cubits/ona/cubit/anime_ona_cubit.dart';

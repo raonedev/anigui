@@ -3,13 +3,13 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-class AnimeDetailPage extends StatefulWidget {
+class AnimeDetailScreen extends StatefulWidget {
   final String animeId;
   final String name;
   final String description;
   final String? thumbnail;
 
-  const AnimeDetailPage({
+  const AnimeDetailScreen({
     super.key,
     required this.animeId,
     required this.name,
@@ -18,10 +18,10 @@ class AnimeDetailPage extends StatefulWidget {
   });
 
   @override
-  State<AnimeDetailPage> createState() => _AnimeDetailPageState();
+  State<AnimeDetailScreen> createState() => _AnimeDetailScreenState();
 }
 
-class _AnimeDetailPageState extends State<AnimeDetailPage> {
+class _AnimeDetailScreenState extends State<AnimeDetailScreen> {
   final Dio _dio = Dio();
   bool _loading = true;
   Map<String, dynamic> _episodes = {};
