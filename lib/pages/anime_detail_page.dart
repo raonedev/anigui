@@ -1,11 +1,28 @@
 import 'dart:ui';
 
+import 'package:anigui/blocs/anime_detail/cubit/anime_detail_cubit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hugeicons/hugeicons.dart';
 
-class AnimeDetailPage extends StatelessWidget {
-  const AnimeDetailPage({super.key});
+class AnimeDetailPage extends StatefulWidget {
+  const AnimeDetailPage({super.key, required this.animeId});
+  final String? animeId;
+
+  @override
+  State<AnimeDetailPage> createState() => _AnimeDetailPageState();
+}
+
+class _AnimeDetailPageState extends State<AnimeDetailPage> {
+  @override
+  void initState() {
+    super.initState();
+    if(widget.animeId!=null){
+    context.read<AnimeDetailCubit>().getAnimeDetail(animeId: widget.animeId!);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,103 +30,164 @@ class AnimeDetailPage extends StatelessWidget {
       backgroundColor: Colors.black,
       extendBodyBehindAppBar: true,
       extendBody: true,
-      body: Stack(
-        children: [
-          // background blur
-          Container(
-            key: ValueKey<String>('anime.images!.jpg!.largeImageUrl!'),
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: CachedNetworkImageProvider(
-                  'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx183423-wt4YjEiCWVVD.jpg',
-                ),
-                fit: BoxFit.cover,
+      body: BlocBuilder<AnimeDetailCubit, AnimeDetailState>(
+        builder: (context, state) {
+          if (state is AnimeDetailLoadingState) {
+            return Center(
+              child: CupertinoActivityIndicator(color: Colors.grey),
+            );
+          } else if (state is AnimeDetailErrorState) {
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    "Something Went Wrong",
+                    style: Theme.of(
+                      context,
+                    ).textTheme.displaySmall?.copyWith(color: Colors.white),
+                  ),
+                  Text(
+                    state.errorMessage,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyMedium?.copyWith(color: Colors.white),
+                  ),
+                ],
               ),
-            ),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
-              child: Container(color: Colors.black.withOpacity(0.5)),
-            ),
-          ),
-
-          // Use the SingleChildScrollView directly within the Stack
-          SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            );
+          } else if (state is AnimeDetailSuccessState) {
+            final animeDetail = state.animeDetail;
+            return Stack(
               children: [
-                const SizedBox(height: 30),
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: CachedNetworkImage(
-                        width: 200,
-                        height: 250,
-                        imageUrl:
-                            "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx183423-wt4YjEiCWVVD.jpg",
+                Container(
+                  key: ValueKey<String>(animeDetail.thumbnail??DateTime.now().toIso8601String()),
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: CachedNetworkImageProvider(
+                        animeDetail.thumbnail??'',
                       ),
+                      fit: BoxFit.cover,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ///Rating
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 2,
-                            horizontal: 8,
+                  ),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
+                    child: Container(color: Colors.black.withValues(alpha: 0.5)),
+                  ),
+                ),
+
+                // Use the SingleChildScrollView directly within the Stack
+                SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 30),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: CachedNetworkImage(
+                              width: 200,
+                              height: 250,
+                              imageUrl:
+                                  animeDetail.thumbnail??'',
+                            ),
                           ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: Colors.white, width: 1),
-                          ),
-                          child: Row(
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
                             children: [
-                              HugeIcon(
-                                icon: HugeIcons.strokeRoundedStarCircle,
-                                color: Colors.white,
-                                size: 20,
+                              ///Rating
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 2,
+                                  horizontal: 8,
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: Colors.white,
+                                    width: 1,
+                                  ),
+                                ),
+                                child: Row(
+                                  children: [
+                                    HugeIcon(
+                                      icon: HugeIcons.strokeRoundedStarCircle,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      animeDetail.score.toString(),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium
+                                          ?.copyWith(color: Colors.white),
+                                    ),
+                                  ],
+                                ),
                               ),
-                              const SizedBox(width: 4),
+
+                              /// type of anime
                               Text(
-                                "7.8",
-                                style: Theme.of(context).textTheme.titleMedium
+                                animeDetail.type??'Unknown',
+                                textAlign: TextAlign.justify,
+                                style: Theme.of(context).textTheme.titleLarge
                                     ?.copyWith(color: Colors.white),
                               ),
                             ],
                           ),
-                        ),
-                        /// type of anime
-                        Text(
-                          "Movie",
-                          textAlign: TextAlign.justify,
-                          style: Theme.of(
-                            context,
-                          ).textTheme.titleLarge?.copyWith(color: Colors.white),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                // Removed Flexible as it's not needed here
-                Text(
-                  "One Piece ",
-                  style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+                        ],
+                      ),
+                      // Removed Flexible as it's not needed here
+                      Text(
+                        animeDetail.name??"Unknown",
+                        style: Theme.of(context).textTheme.displayMedium
+                            ?.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                      Text(
+                        animeDetail.description??"Unknown",
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodyLarge?.copyWith(color: Colors.white),
+                      ),
+                    ],
                   ),
                 ),
-                Text(
-                  "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.",
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyLarge?.copyWith(color: Colors.white),
-                ),
               ],
-            ),
-          ),
-        ],
+            );
+          }else{
+              return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    "Something Went Wrong",
+                    style: Theme.of(
+                      context,
+                    ).textTheme.displaySmall?.copyWith(color: Colors.white),
+                  ),
+                  Text(
+                    state.toString(),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyMedium?.copyWith(color: Colors.white),
+                  ),
+                ],
+              ),
+            );
+          
+          }
+        },
       ),
     );
   }

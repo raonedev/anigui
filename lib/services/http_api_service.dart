@@ -106,14 +106,13 @@ class ApiService {
         "https://api.allanime.day/api",
         queryParameters: {
           "variables": {
-            "showId": "ReooPAxPMsHM4KPMY"
+            "showId": id
           },
           "query":
               "query (\$showId: String!) { show( _id: \$showId ) { _id updateQueue isAdult manualUpdated dailyUpdateNeeded hidden lastUpdateStart lastUpdateEnd name englishName nativeName nameOnlyString countryOfOrigin malId aniListId status altNames trustedAltNames description prevideos thumbnail banner thumbnails musics score type averageScore genres tags popularity airedStart airedEnd season rating broadcastInterval relatedShows relatedMangas characters determinedInterval episodeDuration studios lastEpisodeDate lastEpisodeTimestamp lastEpisodeInfo availableEpisodes availableEpisodesDetail }}",
         },
       );
       if(response.statusCode==200){
-        final show = response.data['data']['show'];
         // log(show.toString());
         return AnimeModel.fromMap(response.data['data']['show']);
       }

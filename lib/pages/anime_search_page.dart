@@ -60,7 +60,9 @@ class _AnimeSearchPageState extends State<AnimeSearchPage> {
                 itemBuilder: (context, index) {
                   return AnimeCardWidget(
                     anime: state.animes[index],
-                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_)=>AnimeDetailPage())),
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_)=>AnimeDetailPage(
+                      animeId: state.animes[index].id,
+                    ))),
                   );
                 },
               );

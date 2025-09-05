@@ -1,7 +1,7 @@
 import 'package:anigui/blocs/search/cubit/anime_search_cubit.dart';
 import 'package:anigui/pages/home_page.dart';
-import 'package:anigui/pages/search_page.dart';
 
+import 'blocs/anime_detail/cubit/anime_detail_cubit.dart';
 import 'blocs/home_cubits/movies/cubit/anime_movie_cubit.dart';
 import 'blocs/home_cubits/ona/cubit/anime_ona_cubit.dart';
 import 'blocs/home_cubits/ova/cubit/anime_ova_cubit.dart';
@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => AnimeSpecialCubit(apiService)..loadSpecialAnimes()),
         BlocProvider(create: (context) => AnimeOnaCubit(apiService)..loadOnaAnime()),
         BlocProvider(create: (context) => AnimeSearchCubit(apiService)),
+        BlocProvider(create: (context) => AnimeDetailCubit(apiService)),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         ),
-        home: SearchPage(),
+        home: HomePage(),
       ),
     );
   }

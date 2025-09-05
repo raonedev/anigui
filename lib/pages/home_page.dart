@@ -251,7 +251,7 @@ class HomePage extends StatelessWidget {
                 return AnimeCardWidget(anime: anime, onTap: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (_) => AnimeDetailPage(),
+                                builder: (_) => AnimeDetailPage(animeId: anime.id,),
                               ),
                             ),);
               },
