@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
@@ -189,7 +188,8 @@ class AnimeModel {
       lastEpisodeDate: lastEpisodeDate ?? this.lastEpisodeDate,
       lastEpisodeTimestamp: lastEpisodeTimestamp ?? this.lastEpisodeTimestamp,
       availableEpisodes: availableEpisodes ?? this.availableEpisodes,
-      availableEpisodesDetail: availableEpisodesDetail ?? this.availableEpisodesDetail,
+      availableEpisodesDetail:
+          availableEpisodesDetail ?? this.availableEpisodesDetail,
     );
   }
 
@@ -245,57 +245,151 @@ class AnimeModel {
 
   factory AnimeModel.fromMap(Map<String, dynamic> map) {
     return AnimeModel(
-      id: map['id'] != null ? map['id'] as String : null,
-      updateQueue: map['updateQueue'] != null ? map['updateQueue'] as String : null,
+      id: map['id'] != null ? map['_id'] as String : null,
+      updateQueue: map['updateQueue'] != null
+          ? map['updateQueue'] as String
+          : null,
       isAdult: map['isAdult'] != null ? map['isAdult'] as bool : null,
-      manualUpdated: map['manualUpdated'] != null ? map['manualUpdated'] as bool : null,
-      dailyUpdateNeeded: map['dailyUpdateNeeded'] != null ? map['dailyUpdateNeeded'] as bool : null,
+      manualUpdated: map['manualUpdated'] != null
+          ? map['manualUpdated'] as bool
+          : null,
+      dailyUpdateNeeded: map['dailyUpdateNeeded'] != null
+          ? map['dailyUpdateNeeded'] as bool
+          : null,
       hidden: map['hidden'] != null ? map['hidden'] as bool : null,
-      lastUpdateStart: map['lastUpdateStart'] != null ? map['lastUpdateStart'] as String : null,
-      lastUpdateEnd: map['lastUpdateEnd'] != null ? map['lastUpdateEnd'] as String : null,
+      lastUpdateStart: map['lastUpdateStart'] != null
+          ? map['lastUpdateStart'] as String
+          : null,
+      lastUpdateEnd: map['lastUpdateEnd'] != null
+          ? map['lastUpdateEnd'] as String
+          : null,
       name: map['name'] != null ? map['name'] as String : null,
-      englishName: map['englishName'] != null ? map['englishName'] as String : null,
-      nativeName: map['nativeName'] != null ? map['nativeName'] as String : null,
-      nameOnlyString: map['nameOnlyString'] != null ? map['nameOnlyString'] as String : null,
-      countryOfOrigin: map['countryOfOrigin'] != null ? map['countryOfOrigin'] as String : null,
+      englishName: map['englishName'] != null
+          ? map['englishName'] as String
+          : null,
+      nativeName: map['nativeName'] != null
+          ? map['nativeName'] as String
+          : null,
+      nameOnlyString: map['nameOnlyString'] != null
+          ? map['nameOnlyString'] as String
+          : null,
+      countryOfOrigin: map['countryOfOrigin'] != null
+          ? map['countryOfOrigin'] as String
+          : null,
       malId: map['malId'] != null ? map['malId'] as String : null,
       aniListId: map['aniListId'] != null ? map['aniListId'] as String : null,
       status: map['status'] != null ? map['status'] as String : null,
-      altNames: map['altNames'] != null ? List<String>.from((map['altNames'] as List<String>)) : null,
-      trustedAltNames: map['trustedAltNames'] != null ? List<String>.from((map['trustedAltNames'] as List<String>)) : null,
-      description: map['description'] != null ? map['description'] as String : null,
-      prevideos: map['prevideos'] != null ? List<String>.from((map['prevideos'] as List<String>)) : null,
+      description: map['description'] != null
+          ? map['description'] as String
+          : null,
       thumbnail: map['thumbnail'] != null ? map['thumbnail'] as String : null,
       banner: map['banner'] != null ? map['banner'] as String : null,
-      thumbnails: map['thumbnails'] != null ? List<String>.from((map['thumbnails'] as List<String>)) : null,
-      musics: map['musics'] != null ? List<Music>.from((map['musics'] as List<int>).map<Music?>((x) => Music.fromMap(x as Map<String,dynamic>),),) : null,
+      musics: map['musics'] != null
+          ? List<Music>.from(
+              (map['musics'] as List<dynamic>).map<Music?>(
+                (x) => Music.fromMap(x as Map<String, dynamic>),
+              ),
+            )
+          : null,
       score: map['score'] != null ? map['score'] as double : null,
       type: map['type'] != null ? map['type'] as String : null,
-      averageScore: map['averageScore'] != null ? map['averageScore'] as int : null,
-      genres: map['genres'] != null ? List<String>.from((map['genres'] as List<String>)) : null,
-      tags: map['tags'] != null ? List<String>.from((map['tags'] as List<String>)) : null,
-      popularity: map['popularity'] != null ? map['popularity'] as String : null,
-      airedStart: map['airedStart'] != null ? AiredStart.fromMap(map['airedStart'] as Map<String,dynamic>) : null,
-      airedEnd: map['airedEnd'] != null ? AiredEnd.fromMap(map['airedEnd'] as Map<String,dynamic>) : null,
-      season: map['season'] != null ? Season.fromMap(map['season'] as Map<String,dynamic>) : null,
+      averageScore: map['averageScore'] != null
+          ? map['averageScore'] as int
+          : null,
+      popularity: map['popularity'] != null
+          ? map['popularity'] as String
+          : null,
+      airedStart: map['airedStart'] != null
+          ? AiredStart.fromMap(map['airedStart'] as Map<String, dynamic>)
+          : null,
+      airedEnd: map['airedEnd'] != null
+          ? AiredEnd.fromMap(map['airedEnd'] as Map<String, dynamic>)
+          : null,
+      season: map['season'] != null
+          ? Season.fromMap(map['season'] as Map<String, dynamic>)
+          : null,
       rating: map['rating'] != null ? map['rating'] as String : null,
-      broadcastInterval: map['broadcastInterval'] != null ? map['broadcastInterval'] as String : null,
-      relatedShows: map['relatedShows'] != null ? List<RelatedShows>.from((map['relatedShows'] as List<int>).map<RelatedShows?>((x) => RelatedShows.fromMap(x as Map<String,dynamic>),),) : null,
-      relatedMangas: map['relatedMangas'] != null ? List<RelatedMangas>.from((map['relatedMangas'] as List<int>).map<RelatedMangas?>((x) => RelatedMangas.fromMap(x as Map<String,dynamic>),),) : null,
-      characters: map['characters'] != null ? List<Characters>.from((map['characters'] as List<int>).map<Characters?>((x) => Characters.fromMap(x as Map<String,dynamic>),),) : null,
-      determinedInterval: map['determinedInterval'] != null ? DeterminedInterval.fromMap(map['determinedInterval'] as Map<String,dynamic>) : null,
-      episodeDuration: map['episodeDuration'] != null ? map['episodeDuration'] as String : null,
-      studios: map['studios'] != null ? List<String>.from((map['studios'] as List<String>)) : null,
-      lastEpisodeDate: map['lastEpisodeDate'] != null ? LastEpisodeDate.fromMap(map['lastEpisodeDate'] as Map<String,dynamic>) : null,
-      lastEpisodeTimestamp: map['lastEpisodeTimestamp'] != null ? LastEpisodeTimestamp.fromMap(map['lastEpisodeTimestamp'] as Map<String,dynamic>) : null,
-      availableEpisodes: map['availableEpisodes'] != null ? AvailableEpisodes.fromMap(map['availableEpisodes'] as Map<String,dynamic>) : null,
-      availableEpisodesDetail: map['availableEpisodesDetail'] != null ? AvailableEpisodesDetail.fromMap(map['availableEpisodesDetail'] as Map<String,dynamic>) : null,
+      broadcastInterval: map['broadcastInterval'] != null
+          ? map['broadcastInterval'] as String
+          : null,
+      relatedShows: map['relatedShows'] != null
+          ? List<RelatedShows>.from(
+              (map['relatedShows'] as List<dynamic>).map<RelatedShows?>(
+                (x) => RelatedShows.fromMap(x as Map<String, dynamic>),
+              ),
+            )
+          : null,
+      relatedMangas: map['relatedMangas'] != null
+          ? List<RelatedMangas>.from(
+              (map['relatedMangas'] as List<dynamic>).map<RelatedMangas?>(
+                (x) => RelatedMangas.fromMap(x as Map<String, dynamic>),
+              ),
+            )
+          : null,
+      characters: map['characters'] != null
+          ? List<Characters>.from(
+              (map['characters'] as List<dynamic>).map<Characters?>(
+                (x) => Characters.fromMap(x as Map<String, dynamic>),
+              ),
+            )
+          : null,
+      determinedInterval: map['determinedInterval'] != null
+          ? DeterminedInterval.fromMap(
+              map['determinedInterval'] as Map<String, dynamic>,
+            )
+          : null,
+      episodeDuration: map['episodeDuration'] != null
+          ? map['episodeDuration'] as String
+          : null,
+      studios: map['studios'] != null
+          ? (map['studios'] as List).cast<String>().toList()
+          : null,
+      lastEpisodeDate: map['lastEpisodeDate'] != null
+          ? LastEpisodeDate.fromMap(
+              map['lastEpisodeDate'] as Map<String, dynamic>,
+            )
+          : null,
+      lastEpisodeTimestamp: map['lastEpisodeTimestamp'] != null
+          ? LastEpisodeTimestamp.fromMap(
+              map['lastEpisodeTimestamp'] as Map<String, dynamic>,
+            )
+          : null,
+      availableEpisodes: map['availableEpisodes'] != null
+          ? AvailableEpisodes.fromMap(
+              map['availableEpisodes'] as Map<String, dynamic>,
+            )
+          : null,
+      availableEpisodesDetail: map['availableEpisodesDetail'] != null
+          ? AvailableEpisodesDetail.fromMap(
+              map['availableEpisodesDetail'] as Map<String, dynamic>,
+            )
+          : null,
+
+      thumbnails: map['thumbnails'] != null
+          ? (map['thumbnails'] as List).cast<String>().toList()
+          : null,
+      prevideos: map['prevideos'] != null
+          ? (map['prevideos'] as List).cast<String>().toList()
+          : null,
+      genres: map['genres'] != null 
+          ? (map['genres'] as List).cast<String>().toList()
+          : null,
+      tags: map['tags'] != null 
+        ? (map['tags'] as List).cast<String>().toList()
+        : null,
+      trustedAltNames: map['trustedAltNames'] != null
+          ? (map['trustedAltNames'] as List).cast<String>().toList()
+          : null,
+      altNames: map['altNames'] != null
+          ? (map['altNames'] as List).cast<String>().toList()
+          : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory AnimeModel.fromJson(String source) => AnimeModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory AnimeModel.fromJson(String source) =>
+      AnimeModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -305,102 +399,101 @@ class AnimeModel {
   @override
   bool operator ==(covariant AnimeModel other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.id == id &&
-      other.updateQueue == updateQueue &&
-      other.isAdult == isAdult &&
-      other.manualUpdated == manualUpdated &&
-      other.dailyUpdateNeeded == dailyUpdateNeeded &&
-      other.hidden == hidden &&
-      other.lastUpdateStart == lastUpdateStart &&
-      other.lastUpdateEnd == lastUpdateEnd &&
-      other.name == name &&
-      other.englishName == englishName &&
-      other.nativeName == nativeName &&
-      other.nameOnlyString == nameOnlyString &&
-      other.countryOfOrigin == countryOfOrigin &&
-      other.malId == malId &&
-      other.aniListId == aniListId &&
-      other.status == status &&
-      listEquals(other.altNames, altNames) &&
-      listEquals(other.trustedAltNames, trustedAltNames) &&
-      other.description == description &&
-      listEquals(other.prevideos, prevideos) &&
-      other.thumbnail == thumbnail &&
-      other.banner == banner &&
-      listEquals(other.thumbnails, thumbnails) &&
-      listEquals(other.musics, musics) &&
-      other.score == score &&
-      other.type == type &&
-      other.averageScore == averageScore &&
-      listEquals(other.genres, genres) &&
-      listEquals(other.tags, tags) &&
-      other.popularity == popularity &&
-      other.airedStart == airedStart &&
-      other.airedEnd == airedEnd &&
-      other.season == season &&
-      other.rating == rating &&
-      other.broadcastInterval == broadcastInterval &&
-      listEquals(other.relatedShows, relatedShows) &&
-      listEquals(other.relatedMangas, relatedMangas) &&
-      listEquals(other.characters, characters) &&
-      other.determinedInterval == determinedInterval &&
-      other.episodeDuration == episodeDuration &&
-      listEquals(other.studios, studios) &&
-      other.lastEpisodeDate == lastEpisodeDate &&
-      other.lastEpisodeTimestamp == lastEpisodeTimestamp &&
-      other.availableEpisodes == availableEpisodes &&
-      other.availableEpisodesDetail == availableEpisodesDetail;
+
+    return other.id == id &&
+        other.updateQueue == updateQueue &&
+        other.isAdult == isAdult &&
+        other.manualUpdated == manualUpdated &&
+        other.dailyUpdateNeeded == dailyUpdateNeeded &&
+        other.hidden == hidden &&
+        other.lastUpdateStart == lastUpdateStart &&
+        other.lastUpdateEnd == lastUpdateEnd &&
+        other.name == name &&
+        other.englishName == englishName &&
+        other.nativeName == nativeName &&
+        other.nameOnlyString == nameOnlyString &&
+        other.countryOfOrigin == countryOfOrigin &&
+        other.malId == malId &&
+        other.aniListId == aniListId &&
+        other.status == status &&
+        listEquals(other.altNames, altNames) &&
+        listEquals(other.trustedAltNames, trustedAltNames) &&
+        other.description == description &&
+        listEquals(other.prevideos, prevideos) &&
+        other.thumbnail == thumbnail &&
+        other.banner == banner &&
+        listEquals(other.thumbnails, thumbnails) &&
+        listEquals(other.musics, musics) &&
+        other.score == score &&
+        other.type == type &&
+        other.averageScore == averageScore &&
+        listEquals(other.genres, genres) &&
+        listEquals(other.tags, tags) &&
+        other.popularity == popularity &&
+        other.airedStart == airedStart &&
+        other.airedEnd == airedEnd &&
+        other.season == season &&
+        other.rating == rating &&
+        other.broadcastInterval == broadcastInterval &&
+        listEquals(other.relatedShows, relatedShows) &&
+        listEquals(other.relatedMangas, relatedMangas) &&
+        listEquals(other.characters, characters) &&
+        other.determinedInterval == determinedInterval &&
+        other.episodeDuration == episodeDuration &&
+        listEquals(other.studios, studios) &&
+        other.lastEpisodeDate == lastEpisodeDate &&
+        other.lastEpisodeTimestamp == lastEpisodeTimestamp &&
+        other.availableEpisodes == availableEpisodes &&
+        other.availableEpisodesDetail == availableEpisodesDetail;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-      updateQueue.hashCode ^
-      isAdult.hashCode ^
-      manualUpdated.hashCode ^
-      dailyUpdateNeeded.hashCode ^
-      hidden.hashCode ^
-      lastUpdateStart.hashCode ^
-      lastUpdateEnd.hashCode ^
-      name.hashCode ^
-      englishName.hashCode ^
-      nativeName.hashCode ^
-      nameOnlyString.hashCode ^
-      countryOfOrigin.hashCode ^
-      malId.hashCode ^
-      aniListId.hashCode ^
-      status.hashCode ^
-      altNames.hashCode ^
-      trustedAltNames.hashCode ^
-      description.hashCode ^
-      prevideos.hashCode ^
-      thumbnail.hashCode ^
-      banner.hashCode ^
-      thumbnails.hashCode ^
-      musics.hashCode ^
-      score.hashCode ^
-      type.hashCode ^
-      averageScore.hashCode ^
-      genres.hashCode ^
-      tags.hashCode ^
-      popularity.hashCode ^
-      airedStart.hashCode ^
-      airedEnd.hashCode ^
-      season.hashCode ^
-      rating.hashCode ^
-      broadcastInterval.hashCode ^
-      relatedShows.hashCode ^
-      relatedMangas.hashCode ^
-      characters.hashCode ^
-      determinedInterval.hashCode ^
-      episodeDuration.hashCode ^
-      studios.hashCode ^
-      lastEpisodeDate.hashCode ^
-      lastEpisodeTimestamp.hashCode ^
-      availableEpisodes.hashCode ^
-      availableEpisodesDetail.hashCode;
+        updateQueue.hashCode ^
+        isAdult.hashCode ^
+        manualUpdated.hashCode ^
+        dailyUpdateNeeded.hashCode ^
+        hidden.hashCode ^
+        lastUpdateStart.hashCode ^
+        lastUpdateEnd.hashCode ^
+        name.hashCode ^
+        englishName.hashCode ^
+        nativeName.hashCode ^
+        nameOnlyString.hashCode ^
+        countryOfOrigin.hashCode ^
+        malId.hashCode ^
+        aniListId.hashCode ^
+        status.hashCode ^
+        altNames.hashCode ^
+        trustedAltNames.hashCode ^
+        description.hashCode ^
+        prevideos.hashCode ^
+        thumbnail.hashCode ^
+        banner.hashCode ^
+        thumbnails.hashCode ^
+        musics.hashCode ^
+        score.hashCode ^
+        type.hashCode ^
+        averageScore.hashCode ^
+        genres.hashCode ^
+        tags.hashCode ^
+        popularity.hashCode ^
+        airedStart.hashCode ^
+        airedEnd.hashCode ^
+        season.hashCode ^
+        rating.hashCode ^
+        broadcastInterval.hashCode ^
+        relatedShows.hashCode ^
+        relatedMangas.hashCode ^
+        characters.hashCode ^
+        determinedInterval.hashCode ^
+        episodeDuration.hashCode ^
+        studios.hashCode ^
+        lastEpisodeDate.hashCode ^
+        lastEpisodeTimestamp.hashCode ^
+        availableEpisodes.hashCode ^
+        availableEpisodesDetail.hashCode;
   }
 }
 
@@ -806,7 +899,7 @@ class Characters {
       aniListId: map['aniListId'] != null ? map['aniListId'] as int : null,
       voiceActors: map['voiceActors'] != null
           ? List<VoiceActors>.from(
-              (map['voiceActors'] as List<int>).map<VoiceActors?>(
+              (map['voiceActors'] as List<dynamic>).map<VoiceActors?>(
                 (x) => VoiceActors.fromMap(x as Map<String, dynamic>),
               ),
             )
@@ -1315,11 +1408,7 @@ class AvailableEpisodesDetail {
   final List<String>? dub;
   final List<String>? raw;
 
-  AvailableEpisodesDetail({
-    this.sub,
-    this.dub,
-    this.raw,
-  });
+  AvailableEpisodesDetail({this.sub, this.dub, this.raw});
 
   AvailableEpisodesDetail copyWith({
     List<String>? sub,
@@ -1334,36 +1423,41 @@ class AvailableEpisodesDetail {
   }
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'sub': sub,
-      'dub': dub,
-      'raw': raw,
-    };
+    return <String, dynamic>{'sub': sub, 'dub': dub, 'raw': raw};
   }
 
   factory AvailableEpisodesDetail.fromMap(Map<String, dynamic> map) {
     return AvailableEpisodesDetail(
-      sub: map['sub'] != null ? List<String>.from((map['sub'] as List<String>)) : null,
-      dub: map['dub'] != null ? List<String>.from((map['dub'] as List<String>)) : null,
-      raw: map['raw'] != null ? List<String>.from((map['raw'] as List<String>)) : null,
+      sub: map['sub'] != null
+          ? (map['sub'] as List).cast<String>().toList()
+          : null,
+      dub: map['dub'] != null
+          ? (map['dub'] as List).cast<String>().toList()
+          : null,
+      raw: map['raw'] != null
+          ? (map['raw'] as List).cast<String>().toList()
+          : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory AvailableEpisodesDetail.fromJson(String source) => AvailableEpisodesDetail.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory AvailableEpisodesDetail.fromJson(String source) =>
+      AvailableEpisodesDetail.fromMap(
+        json.decode(source) as Map<String, dynamic>,
+      );
 
   @override
-  String toString() => 'AvailableEpisodesDetail(sub: $sub, dub: $dub, raw: $raw)';
+  String toString() =>
+      'AvailableEpisodesDetail(sub: $sub, dub: $dub, raw: $raw)';
 
   @override
   bool operator ==(covariant AvailableEpisodesDetail other) {
     if (identical(this, other)) return true;
-  
-    return 
-      listEquals(other.sub, sub) &&
-      listEquals(other.dub, dub) &&
-      listEquals(other.raw, raw);
+
+    return listEquals(other.sub, sub) &&
+        listEquals(other.dub, dub) &&
+        listEquals(other.raw, raw);
   }
 
   @override

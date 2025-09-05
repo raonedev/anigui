@@ -106,14 +106,16 @@ class ApiService {
         "https://api.allanime.day/api",
         queryParameters: {
           "variables": {
-            "showId": "bNxsZLcHxRPbs4eTf"
+            "showId": "ReooPAxPMsHM4KPMY"
           },
           "query":
-              "query (\$showId: String!) { show( _id: \$showId ) { _id availableEpisodesDetail }}",
+              "query (\$showId: String!) { show( _id: \$showId ) { _id updateQueue isAdult manualUpdated dailyUpdateNeeded hidden lastUpdateStart lastUpdateEnd name englishName nativeName nameOnlyString countryOfOrigin malId aniListId status altNames trustedAltNames description prevideos thumbnail banner thumbnails musics score type averageScore genres tags popularity airedStart airedEnd season rating broadcastInterval relatedShows relatedMangas characters determinedInterval episodeDuration studios lastEpisodeDate lastEpisodeTimestamp lastEpisodeInfo availableEpisodes availableEpisodesDetail }}",
         },
       );
       if(response.statusCode==200){
-        return AnimeModel.fromJson(response.data['data']['show']);
+        final show = response.data['data']['show'];
+        // log(show.toString());
+        return AnimeModel.fromMap(response.data['data']['show']);
       }
       throw Exception("${response.statusCode} Failed to get AnimeDetail");
     } on DioException catch (e) {
