@@ -1,5 +1,6 @@
 import 'package:anigui/blocs/search/cubit/anime_search_cubit.dart';
 import 'package:anigui/pages/home_page.dart';
+import 'package:anigui/pages/search_page.dart';
 
 import 'blocs/home_cubits/movies/cubit/anime_movie_cubit.dart';
 import 'blocs/home_cubits/ona/cubit/anime_ona_cubit.dart';
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         ),
-        home: HomePage(),
+        home: SearchPage(),
       ),
     );
   }

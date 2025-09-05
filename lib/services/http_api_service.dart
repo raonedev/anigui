@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:anigui/models/anime_home_card.dart';
 import 'package:dio/dio.dart';
 
+import '../models/anime_model.dart';
+
 class ApiService {
   final Dio _dio = Dio(
     BaseOptions(
@@ -18,11 +20,14 @@ class ApiService {
   ///
   /// This method now uses a POST request, which is the correct way to
   /// send GraphQL queries with variables to this specific API endpoint.
-  Future<List<AnimeHomeCard>> fetchAnimeByTypes({required List<String> types}) async {
+  Future<List<AnimeHomeCard>> fetchAnimeByTypes({
+    required List<String> types,
+  }) async {
     try {
       final response = await _dio.post(
         "api",
-        data: { // Changed from `queryParameters` to `data` for the POST body
+        data: {
+          // Changed from `queryParameters` to `data` for the POST body
           "variables": {
             "search": {
               "allowAdult": false,
@@ -32,10 +37,10 @@ class ApiService {
             "limit": 20,
             "page": 1,
             "translationType": "sub",
-            "countryOrigin": "ALL"
+            "countryOrigin": "ALL",
           },
           "query":
-              "query(\$search: SearchInput \$limit: Int \$page: Int \$translationType: VaildTranslationTypeEnumType \$countryOrigin: VaildCountryOriginEnumType) {shows(search: \$search limit: \$limit page: \$page translationType: \$translationType countryOrigin: \$countryOrigin) {edges{_id englishName name thumbnail score type genres tags episodeDuration episodeCount status __typename}}}"
+              "query(\$search: SearchInput \$limit: Int \$page: Int \$translationType: VaildTranslationTypeEnumType \$countryOrigin: VaildCountryOriginEnumType) {shows(search: \$search limit: \$limit page: \$page translationType: \$translationType countryOrigin: \$countryOrigin) {edges{_id englishName name thumbnail score type genres tags episodeDuration episodeCount status __typename}}}",
         },
       );
 
@@ -43,33 +48,40 @@ class ApiService {
       return data.map((e) => AnimeHomeCard.fromJson(e)).toList();
     } on DioException catch (e) {
       // It's good practice to catch Dio-specific exceptions for detailed logging.
-      log("DioError fetching anime cards", error: e.response?.data ?? e.message);
-      return []; 
+      log(
+        "DioError fetching anime cards",
+        error: e.response?.data ?? e.message,
+      );
+      return [];
     } catch (e) {
       log("Unknown error fetching anime cards", error: e);
       rethrow;
     }
   }
 
-  Future<List<AnimeHomeCard>> fetchAnimeBySearch({ List<String>? types,required String name}) async {
+  Future<List<AnimeHomeCard>> fetchAnimeBySearch({
+    List<String>? types,
+    required String name,
+  }) async {
     try {
       final response = await _dio.post(
         "api",
-        data: { // Changed from `queryParameters` to `data` for the POST body
+        data: {
+          // Changed from `queryParameters` to `data` for the POST body
           "variables": {
             "search": {
               "allowAdult": false,
               "allowUnknown": false,
-              "query":name,
-              if (types != null) "types": types
+              "query": name,
+              if (types != null) "types": types,
             },
             "limit": 20,
             "page": 1,
             "translationType": "sub",
-            "countryOrigin": "ALL"
+            "countryOrigin": "ALL",
           },
           "query":
-              "query(\$search: SearchInput \$limit: Int \$page: Int \$translationType: VaildTranslationTypeEnumType \$countryOrigin: VaildCountryOriginEnumType) {shows(search: \$search limit: \$limit page: \$page translationType: \$translationType countryOrigin: \$countryOrigin) {edges{_id englishName name thumbnail score type genres tags episodeDuration episodeCount status __typename}}}"
+              "query(\$search: SearchInput \$limit: Int \$page: Int \$translationType: VaildTranslationTypeEnumType \$countryOrigin: VaildCountryOriginEnumType) {shows(search: \$search limit: \$limit page: \$page translationType: \$translationType countryOrigin: \$countryOrigin) {edges{_id englishName name thumbnail score type genres tags episodeDuration episodeCount status __typename}}}",
         },
       );
 
@@ -77,8 +89,40 @@ class ApiService {
       return data.map((e) => AnimeHomeCard.fromJson(e)).toList();
     } on DioException catch (e) {
       // It's good practice to catch Dio-specific exceptions for detailed logging.
-      log("DioError fetching anime cards", error: e.response?.data ?? e.message);
-      return []; 
+      log(
+        "DioError fetching anime cards",
+        error: e.response?.data ?? e.message,
+      );
+      return [];
+    } catch (e) {
+      log("Unknown error fetching anime cards", error: e);
+      rethrow;
+    }
+  }
+
+  Future<AnimeModel> fetchAnimeDetail({required String id}) async {
+    try {
+      final response = await _dio.get(
+        "https://api.allanime.day/api",
+        queryParameters: {
+          "variables": {
+            "showId": "bNxsZLcHxRPbs4eTf"
+          },
+          "query":
+              "query (\$showId: String!) { show( _id: \$showId ) { _id availableEpisodesDetail }}",
+        },
+      );
+      if(response.statusCode==200){
+        return AnimeModel.fromJson(response.data['data']['show']);
+      }
+      throw Exception("${response.statusCode} Failed to get AnimeDetail");
+    } on DioException catch (e) {
+      // It's good practice to catch Dio-specific exceptions for detailed logging.
+      log(
+        "DioError fetching anime cards",
+        error: e.response?.data ?? e.message,
+      );
+      rethrow;
     } catch (e) {
       log("Unknown error fetching anime cards", error: e);
       rethrow;

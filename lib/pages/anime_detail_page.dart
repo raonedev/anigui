@@ -28,12 +28,12 @@ class AnimeDetailPage extends StatelessWidget {
             ),
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
-              child: Container(color: Colors.black.withValues(alpha: 0.5)),
+              child: Container(color: Colors.black.withOpacity(0.5)),
             ),
           ),
 
+          // Use the SingleChildScrollView directly within the Stack
           SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -80,7 +80,6 @@ class AnimeDetailPage extends StatelessWidget {
                             ],
                           ),
                         ),
-                                  
                         /// type of anime
                         Text(
                           "Movie",
@@ -93,13 +92,12 @@ class AnimeDetailPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                Flexible(
-                  child: Text(
-                    "One Piece ",
-                    style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+                // Removed Flexible as it's not needed here
+                Text(
+                  "One Piece ",
+                  style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(

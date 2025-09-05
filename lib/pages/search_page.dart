@@ -100,12 +100,14 @@ class _SearchPageState extends State<SearchPage> {
           : _results.isEmpty
           ?  Center(child: ElevatedButton(onPressed: () async{
                 ApiService apiService = ApiService();
-                final val = await apiService.fetchAnimeByTypes(types: ["TV"]);
-                val.map(
-                  (e) {
-                    log(e.englishName.toString());
-                  },
-                ).toList();
+                final val = await apiService.fetchAnimeDetail(id: "bNxsZLcHxRPbs4eTf");
+                log(val.toString());
+                // final val = await apiService.fetchAnimeByTypes(types: ["TV"]);
+                // val.map(
+                //   (e) {
+                //     log(e.englishName.toString());
+                //   },
+                // ).toList();
               }, child: Text("click me")))
           : ListView.builder(
               itemCount: _results.length,

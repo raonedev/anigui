@@ -17,5 +17,6 @@ final class AnimeDetailErrorState extends AnimeDetailState {
 
 
 final class AnimeDetailSuccessState extends AnimeDetailState {
-
+  final AnimeModel animeDetail;
+  AnimeDetailSuccessState({required this.animeDetail});
 }

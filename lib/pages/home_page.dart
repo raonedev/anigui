@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:anigui/pages/anime_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -89,6 +90,10 @@ class HomePage extends StatelessWidget {
                 child: BackdropFilter(
                   filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                   child: Container(
+                    constraints: BoxConstraints(
+                      maxWidth: 400,
+                      minWidth: 400,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.black.withValues(alpha: 0.2),
                       borderRadius: BorderRadiusGeometry.circular(20),
@@ -243,7 +248,12 @@ class HomePage extends StatelessWidget {
               itemCount: animes.length,
               itemBuilder: (context, index) {
                 final anime = animes[index];
-                return AnimeCardWidget(anime: anime, onTap: () {});
+                return AnimeCardWidget(anime: anime, onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => AnimeDetailPage(),
+                              ),
+                            ),);
               },
             );
           },
