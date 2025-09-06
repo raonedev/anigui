@@ -2,6 +2,7 @@ import 'dart:developer' as dev;
 import 'dart:ui';
 
 import 'package:anigui/blocs/anime_detail/cubit/anime_detail_cubit.dart';
+import 'package:anigui/pages/video_player_page.dart';
 import 'package:anigui/services/http_api_service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -39,10 +40,7 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.white,
-          ),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
         ),
       ),
       body: BlocBuilder<AnimeDetailCubit, AnimeDetailState>(
@@ -186,21 +184,37 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
                   right: 0,
                   child: CupertinoButton.filled(
                     color: Colors.amberAccent,
-                    onPressed: () async{
+                    onPressed: () async {
                       final apiservice = ApiService();
                       final res = await apiservice.fetchEpisodeSources(
                         showId: animeDetail.id ?? '',
                         episode: "1",
                         translationType: "sub",
                       );
-                      res.map(
-                        (e) {
-                          dev.log(e.toString());  
-                        },
-                      ).toList();
+                      // Extract all URLs from the response
+                      List<String> videoUrls = res
+                          .map<String>((e) => e['url']?.toString() ?? '')
+                          .toList();
+
+                      // Remove any empty URLs
+                      videoUrls = videoUrls
+                          .where((url) => url.isNotEmpty)
+                          .toList();
+
+                      if (videoUrls.isNotEmpty) {
+                        if (context.mounted) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) =>
+                                  VideoPlayerPage(videoUrls: videoUrls),
+                            ),
+                          );
+                        }
+                      }
                     },
                     child: Text(
-                      animeDetail.id??"Get Link",
+                      animeDetail.id ?? "Get Link",
                       style: Theme.of(
                         context,
                       ).textTheme.bodyLarge?.copyWith(color: Colors.white),

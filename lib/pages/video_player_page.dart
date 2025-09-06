@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:chewie/chewie.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,28 +7,26 @@ import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayerPage extends StatefulWidget {
-  const VideoPlayerPage({super.key});
+  const VideoPlayerPage({super.key, required this.videoUrls});
+   final List<String> videoUrls;
 
   @override
   State<VideoPlayerPage> createState() => _VideoPlayerPageState();
 }
 
 class _VideoPlayerPageState extends State<VideoPlayerPage> {
-  late VideoPlayerController _videoPlayerController;
+   late VideoPlayerController _videoPlayerController;
   late ChewieController _chewieController;
   bool _isLoading = true;
-
-  // A sample video URL. Replace with your own.
-  final String videoUrl =
-      'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4';
-
+  int _currentVideoIndex = 0;
+  
   // Variables for swipe-to-seek functionality
   double _dragStartX = 0.0;
   Duration _seekStartPos = Duration.zero;
   Duration _currentSeekPos = Duration.zero;
   bool _isSeeking = false;
 
-  @override
+   @override
   void initState() {
     super.initState();
     // Force the screen into landscape mode when this widget is initialized.
@@ -37,10 +37,27 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     _initializePlayer();
   }
 
+  
   Future<void> _initializePlayer() async {
+    // If we've tried all URLs, show error
+    if (_currentVideoIndex >= widget.videoUrls.length) {
+      log("we've tried all URLs");
+      setState(() {
+        _isLoading = false;
+      });
+      return;
+    }
+
+    final videoUrl = widget.videoUrls[_currentVideoIndex];
+    if(videoUrl.isEmpty) {
+      _tryNextVideo();
+      return;
+    }
+
     _videoPlayerController = VideoPlayerController.networkUrl(
       Uri.parse(videoUrl),
     );
+    
     try {
       await _videoPlayerController.initialize();
       _createChewieController();
@@ -50,13 +67,21 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     } catch (error) {
       // Handle player initialization error
       debugPrint("Error initializing video player: $error");
-      setState(() {
-        _isLoading = false;
-      });
+      _videoPlayerController.dispose();
+      _tryNextVideo();
     }
   }
+  
+   void _tryNextVideo() {
+    log("_tryNextVideo");
+    setState(() {
+      _currentVideoIndex++;
+      _isLoading = true;
+    });
+    _initializePlayer();
+  }
 
-  void _createChewieController() {
+   void _createChewieController() {
     _chewieController = ChewieController(
       videoPlayerController: _videoPlayerController,
       autoPlay: true,
@@ -65,9 +90,19 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
       errorBuilder: (context, errorMessage) {
         return Material(
           child: Center(
-            child: Text(
-              errorMessage,
-              style: const TextStyle(color: Colors.white),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Failed to load video ${_currentVideoIndex + 1}/${widget.videoUrls.length}',
+                  style: const TextStyle(color: Colors.white),
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: _tryNextVideo,
+                  child: const Text('Try Next Video'),
+                ),
+              ],
             ),
           ),
         );
@@ -75,7 +110,6 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
       customControls: const CupertinoControls(
         backgroundColor: Color.fromRGBO(41, 41, 41, 0.7),
         iconColor: Colors.white,
-
       ),
     );
   }
@@ -184,25 +218,46 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                   radius: 20.0,
                   color: CupertinoColors.white,
                 )
-              : _videoPlayerController.value.isInitialized
-              ? GestureDetector(
-                  onDoubleTapDown: _handleDoubleTap,
-                  onHorizontalDragStart: _onHorizontalDragStart,
-                  onHorizontalDragUpdate: _onHorizontalDragUpdate,
-                  onHorizontalDragEnd: _onHorizontalDragEnd,
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Chewie(controller: _chewieController),
-                      // Show a seeking indicator when the user is swiping
-                      if (_isSeeking) _buildSeekingIndicator(),
-                    ],
-                  ),
-                )
-              : const Text(
-                  'Failed to load video.',
-                  style: TextStyle(color: CupertinoColors.white),
-                ),
+              : _currentVideoIndex >= widget.videoUrls.length
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'All videos failed to load.',
+                          style: TextStyle(color: CupertinoColors.white),
+                        ),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              _currentVideoIndex = 0;
+                              _isLoading = true;
+                            });
+                            _initializePlayer();
+                          },
+                          child: const Text('Retry All Videos'),
+                        ),
+                      ],
+                    )
+                  : _videoPlayerController.value.isInitialized
+                      ? GestureDetector(
+                          onDoubleTapDown: _handleDoubleTap,
+                          onHorizontalDragStart: _onHorizontalDragStart,
+                          onHorizontalDragUpdate: _onHorizontalDragUpdate,
+                          onHorizontalDragEnd: _onHorizontalDragEnd,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Chewie(controller: _chewieController),
+                              // Show a seeking indicator when the user is swiping
+                              if (_isSeeking) _buildSeekingIndicator(),
+                            ],
+                          ),
+                        )
+                      : const Text(
+                          'Failed to load video.',
+                          style: TextStyle(color: CupertinoColors.white),
+                        ),
         ),
       ),
     );
