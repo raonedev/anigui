@@ -42,6 +42,8 @@ dependencies:
   cached_network_image: ^3.4.1
   hugeicons: ^0.0.11
   shimmer: ^3.0.0
+  video_player: ^2.10.0
+  chewie: ^1.12.1
 
 dev_dependencies:
   flutter_test:
