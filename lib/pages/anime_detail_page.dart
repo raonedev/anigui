@@ -186,17 +186,21 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
                   right: 0,
                   child: CupertinoButton.filled(
                     color: Colors.amberAccent,
-                    onPressed: () {
+                    onPressed: () async{
                       final apiservice = ApiService();
-                      final res = apiservice.fetchEpisodeSources(
+                      final res = await apiservice.fetchEpisodeSources(
                         showId: animeDetail.id ?? '',
                         episode: "1",
                         translationType: "sub",
                       );
-                      dev.log(res.toString());
+                      res.map(
+                        (e) {
+                          dev.log(e.toString());  
+                        },
+                      ).toList();
                     },
                     child: Text(
-                      "Get Link",
+                      animeDetail.id??"Get Link",
                       style: Theme.of(
                         context,
                       ).textTheme.bodyLarge?.copyWith(color: Colors.white),

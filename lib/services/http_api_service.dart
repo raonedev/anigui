@@ -162,8 +162,7 @@ class ApiService {
         options: Options(headers: {"Referer": "https://allmanga.to"}),
       );
 
-      final sourceUrls =
-          response.data?["data"]?["episode"]?["sourceUrls"] as List<dynamic>?;
+      final sourceUrls = response.data?["data"]?["episode"]?["sourceUrls"] as List<dynamic>?;
 
       if (sourceUrls == null || sourceUrls.isEmpty) {
         throw Exception(
@@ -176,7 +175,7 @@ class ApiService {
         var sourceUrl = source['sourceUrl']?.toString() ?? '';
 
         if (sourceName.isEmpty || sourceUrl.isEmpty) continue;
-
+        if(!sourceUrl.startsWith("--")) continue;
         sourceUrl = sourceUrl.replaceFirst('--', '');
 
         final decodedUrl = _isSupportedSource(sourceName)
@@ -186,8 +185,12 @@ class ApiService {
         if (decodedUrl.isEmpty) continue;
 
         if (decodedUrl.contains('/clock.json')) {
-          final clockLinks = await _fetchClockJsonLinks(decodedUrl);
+          try {
+            final clockLinks = await _fetchClockJsonLinks(decodedUrl);
           finalVideoLinks.addAll(clockLinks);
+          } catch (e) {
+            log(e.toString());
+          }
         } else {
           finalVideoLinks.add({'resolution': sourceName, 'url': decodedUrl});
         }
@@ -321,35 +324,29 @@ class ApiService {
     return encodedUrl;
   }
 
-  Future<List<Map<String, String>>> _fetchClockJsonLinks(
-    String clockUrl,
-  ) async {
+  Future<List<Map<String, String>>> _fetchClockJsonLinks(String clockUrl) async {
     final List<Map<String, String>> finalVideoLinks = [];
-
     try {
+      // Construct the full URL
       final fullUrl = "https://allanime.day$clockUrl";
+
+      // log('Fetching links from: $fullUrl');
       final response = await _dio.get(
         fullUrl,
         options: Options(headers: {"Referer": "https://allmanga.to"}),
       );
 
-      final links = response.data['links'] as List<dynamic>?;
+      final List<dynamic> links = response.data['links'];
 
-      if (links == null || links.isEmpty) {
-        throw Exception("No links found in response.");
-      }
-
-      for (final linkData in links) {
-        final link = linkData['link'] as String?;
-        if (link == null || link.isEmpty) continue;
-
+      for (var linkData in links) {
+        final String link = linkData['link'];
+        // Parse the link using the logic from your bash script
         final parsedLinks = await _parseVideoLinks(link);
         finalVideoLinks.addAll(parsedLinks);
       }
-
       return finalVideoLinks;
-    } catch (e, stackTrace) {
-      log(
+    } catch (e,stackTrace) {
+            log(
         "Error fetching clock JSON links: ",
         error: e,
         stackTrace: stackTrace,
@@ -357,6 +354,9 @@ class ApiService {
       rethrow;
     }
   }
+  
+
+
 
   Future<List<Map<String, String>>> _parseVideoLinks(String link) async {
     final List<Map<String, String>> parsedLinks = [];

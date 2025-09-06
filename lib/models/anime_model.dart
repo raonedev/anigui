@@ -245,7 +245,7 @@ class AnimeModel {
 
   factory AnimeModel.fromMap(Map<String, dynamic> map) {
     return AnimeModel(
-      id: map['id'] != null ? map['_id'] as String : null,
+      id: map['_id'] != null ? map['_id'] as String : null,
       updateQueue: map['updateQueue'] != null
           ? map['updateQueue'] as String
           : null,
