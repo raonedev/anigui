@@ -422,3 +422,48 @@ class _AnimeDetailScreenState extends State<AnimeDetailScreen> {
     );
   }
 }
+
+/// just for [Testing]
+                // Positioned(
+                //   bottom: 0,
+                //   left: 0,
+                //   right: 0,
+                //   child: CupertinoButton.filled(
+                //     color: Colors.amberAccent,
+                //     onPressed: () async {
+                //       final apiservice = ApiService();
+                //       final res = await apiservice.fetchEpisodeSources(
+                //         showId: animeDetail.id ?? '',
+                //         episode: "1",
+                //         translationType: "sub",
+                //       );
+                //       // Extract all URLs from the response
+                //       List<String> videoUrls = res
+                //           .map<String>((e) => e['url']?.toString() ?? '')
+                //           .toList();
+
+                //       // Remove any empty URLs
+                //       videoUrls = videoUrls
+                //           .where((url) => url.isNotEmpty)
+                //           .toList();
+
+                //       if (videoUrls.isNotEmpty) {
+                //         if (context.mounted) {
+                //           Navigator.push(
+                //             context,
+                //             MaterialPageRoute(
+                //               builder: (_) =>
+                //                   VideoPlayerPage(videoUrls: videoUrls),
+                //             ),
+                //           );
+                //         }
+                //       }
+                //     },
+                //     child: Text(
+                //       animeDetail.id ?? "Get Link",
+                //       style: Theme.of(
+                //         context,
+                //       ).textTheme.bodyLarge?.copyWith(color: Colors.white),
+                //     ),
+                //   ),
+                // ),
