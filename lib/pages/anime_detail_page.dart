@@ -1,6 +1,8 @@
+import 'dart:developer' as dev;
 import 'dart:ui';
 
 import 'package:anigui/blocs/anime_detail/cubit/anime_detail_cubit.dart';
+import 'package:anigui/services/http_api_service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +21,8 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
   @override
   void initState() {
     super.initState();
-    if(widget.animeId!=null){
-    context.read<AnimeDetailCubit>().getAnimeDetail(animeId: widget.animeId!);
+    if (widget.animeId != null) {
+      context.read<AnimeDetailCubit>().getAnimeDetail(animeId: widget.animeId!);
     }
   }
 
@@ -30,6 +32,19 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
       backgroundColor: Colors.black,
       extendBodyBehindAppBar: true,
       extendBody: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+          ),
+        ),
+      ),
       body: BlocBuilder<AnimeDetailCubit, AnimeDetailState>(
         builder: (context, state) {
           if (state is AnimeDetailLoadingState) {
@@ -63,18 +78,22 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
             return Stack(
               children: [
                 Container(
-                  key: ValueKey<String>(animeDetail.thumbnail??DateTime.now().toIso8601String()),
+                  key: ValueKey<String>(
+                    animeDetail.thumbnail ?? DateTime.now().toIso8601String(),
+                  ),
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: CachedNetworkImageProvider(
-                        animeDetail.thumbnail??'',
+                        animeDetail.thumbnail ?? '',
                       ),
                       fit: BoxFit.cover,
                     ),
                   ),
                   child: BackdropFilter(
                     filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
-                    child: Container(color: Colors.black.withValues(alpha: 0.5)),
+                    child: Container(
+                      color: Colors.black.withValues(alpha: 0.5),
+                    ),
                   ),
                 ),
 
@@ -83,7 +102,6 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 30),
                       Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
@@ -92,8 +110,7 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
                             child: CachedNetworkImage(
                               width: 200,
                               height: 250,
-                              imageUrl:
-                                  animeDetail.thumbnail??'',
+                              imageUrl: animeDetail.thumbnail ?? '',
                             ),
                           ),
                           Column(
@@ -134,7 +151,7 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
 
                               /// type of anime
                               Text(
-                                animeDetail.type??'Unknown',
+                                animeDetail.type ?? 'Unknown',
                                 textAlign: TextAlign.justify,
                                 style: Theme.of(context).textTheme.titleLarge
                                     ?.copyWith(color: Colors.white),
@@ -145,7 +162,7 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
                       ),
                       // Removed Flexible as it's not needed here
                       Text(
-                        animeDetail.name??"Unknown",
+                        animeDetail.name ?? "Unknown",
                         style: Theme.of(context).textTheme.displayMedium
                             ?.copyWith(
                               color: Colors.white,
@@ -153,7 +170,7 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
                             ),
                       ),
                       Text(
-                        animeDetail.description??"Unknown",
+                        animeDetail.description ?? "Unknown",
                         style: Theme.of(
                           context,
                         ).textTheme.bodyLarge?.copyWith(color: Colors.white),
@@ -161,10 +178,35 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
                     ],
                   ),
                 ),
+
+                /// just for [Testing]
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: CupertinoButton.filled(
+                    color: Colors.amberAccent,
+                    onPressed: () {
+                      final apiservice = ApiService();
+                      final res = apiservice.fetchEpisodeSources(
+                        showId: animeDetail.id ?? '',
+                        episode: "1",
+                        translationType: "sub",
+                      );
+                      dev.log(res.toString());
+                    },
+                    child: Text(
+                      "Get Link",
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodyLarge?.copyWith(color: Colors.white),
+                    ),
+                  ),
+                ),
               ],
             );
-          }else{
-              return Padding(
+          } else {
+            return Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -185,7 +227,6 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
                 ],
               ),
             );
-          
           }
         },
       ),
