@@ -49,7 +49,12 @@ class _AnimeSearchPageState extends State<AnimeSearchPage> {
                 child: CupertinoActivityIndicator(color: Colors.white),
               );
             } else if (state is AnimeSearchSuccessState) {
-              return GridView.builder(
+              return state.animes.isEmpty?Center(
+                child: Text(
+                  "No results found",
+                  style: TextStyle(color: Colors.white70),
+                ),
+              ): GridView.builder(
                 itemCount: state.animes.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,

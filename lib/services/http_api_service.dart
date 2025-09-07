@@ -85,8 +85,9 @@ class ApiService {
               "query(\$search: SearchInput \$limit: Int \$page: Int \$translationType: VaildTranslationTypeEnumType \$countryOrigin: VaildCountryOriginEnumType) {shows(search: \$search limit: \$limit page: \$page translationType: \$translationType countryOrigin: \$countryOrigin) {edges{_id englishName name thumbnail score type genres tags episodeDuration episodeCount status __typename}}}",
         },
       );
-
+      log(response.data['data'].toString());
       final data = response.data['data']['shows']['edges'] as List;
+
       return data.map((e) => AnimeHomeCard.fromJson(e)).toList();
     } on DioException catch (e) {
       // It's good practice to catch Dio-specific exceptions for detailed logging.
