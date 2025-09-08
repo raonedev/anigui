@@ -98,6 +98,8 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
       _videoPlayerController.dispose();
       _tryNextVideo();
     }
+
+    VolumeController.instance.showSystemUI = false;
   }
   
    void _tryNextVideo() {
