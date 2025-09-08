@@ -45,6 +45,8 @@ dependencies:
   video_player: ^2.10.0
   chewie: ^1.12.1
   flutter_html: ^3.0.0
+  screen_brightness: ^2.1.7
+  volume_controller: ^3.4.0
 
 dev_dependencies:
   flutter_test:

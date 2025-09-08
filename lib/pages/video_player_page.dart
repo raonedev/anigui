@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
+import 'package:screen_brightness/screen_brightness.dart';
+import 'package:volume_controller/volume_controller.dart';
 
 class VideoPlayerPage extends StatefulWidget {
   const VideoPlayerPage({super.key, required this.videoUrls});
@@ -26,6 +28,15 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
   Duration _currentSeekPos = Duration.zero;
   bool _isSeeking = false;
 
+  // Variables for brightness and volume control
+  double _dragStartY = 0.0;
+  double _currentBrightness = 0.5;
+  double _currentVolume = 0.5;
+  bool _isAdjustingBrightness = false;
+  bool _isAdjustingVolume = false;
+  double _initialBrightness = 0.5;
+  double _initialVolume = 0.5;
+
    @override
   void initState() {
     super.initState();
@@ -36,8 +47,24 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     ]);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     _initializePlayer();
+    _initializeBrightnessAndVolume();
   }
 
+  Future<void> _initializeBrightnessAndVolume() async {
+    try {
+      // Get current brightness
+      _currentBrightness = await ScreenBrightness().application;
+      _initialBrightness = _currentBrightness;
+      
+      // Get current volume
+      _currentVolume = await VolumeController.instance.getVolume();
+      _initialVolume = _currentVolume;
+      
+      setState(() {});
+    } catch (e) {
+      debugPrint('Error initializing brightness/volume: $e');
+    }
+  }
   
   Future<void> _initializePlayer() async {
     // If we've tried all URLs, show error
@@ -165,48 +192,97 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     }
   }
 
-  void _onHorizontalDragStart(DragStartDetails details) {
+  void _onPanStart(DragStartDetails details) {
     if (!_videoPlayerController.value.isInitialized) return;
 
-    setState(() {
-      _isSeeking = true;
-      _dragStartX = details.globalPosition.dx;
-      _seekStartPos = _videoPlayerController.value.position;
-    });
-  }
-
-  void _onHorizontalDragUpdate(DragUpdateDetails details) {
-    if (!_isSeeking) return;
-
     final screenWidth = MediaQuery.of(context).size.width;
-    final dragDistance = details.globalPosition.dx - _dragStartX;
+    final startX = details.globalPosition.dx;
+    final startY = details.globalPosition.dy;
 
-    // Map drag distance to seek duration.
-    // Here, dragging across half the screen seeks 60 seconds.
-    // You can adjust this sensitivity.
-    final seekAmount = (dragDistance / (screenWidth / 2)) * 60;
-    final seekDuration = Duration(seconds: seekAmount.round());
-
-    final newPosition = _seekStartPos + seekDuration;
-
-    // Clamp the position to be within the video's duration
-    final videoDuration = _videoPlayerController.value.duration;
-    final clampedPosition = newPosition < Duration.zero
-        ? Duration.zero
-        : newPosition > videoDuration
-        ? videoDuration
-        : newPosition;
     setState(() {
-      _currentSeekPos = clampedPosition;
+      _dragStartX = startX;
+      _dragStartY = startY;
+      
+      // Determine if this is a brightness, volume, or seek gesture based on position
+      if (startX < screenWidth * 0.3) {
+        // Left side - brightness control
+        _isAdjustingBrightness = true;
+        _initialBrightness = _currentBrightness;
+      } else if (startX > screenWidth * 0.7) {
+        // Right side - volume control
+        _isAdjustingVolume = true;
+        _initialVolume = _currentVolume;
+      } else {
+        // Center - seek control (horizontal only)
+        _isSeeking = true;
+        _seekStartPos = _videoPlayerController.value.position;
+      }
     });
   }
 
-  void _onHorizontalDragEnd(DragEndDetails details) {
-    if (!_isSeeking) return;
+  void _onPanUpdate(DragUpdateDetails details) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final currentX = details.globalPosition.dx;
+    final currentY = details.globalPosition.dy;
 
-    _videoPlayerController.seekTo(_currentSeekPos);
+    if (_isAdjustingBrightness) {
+      // Brightness control - vertical drag on left side
+      final dragDistance = _dragStartY - currentY; // Inverted for intuitive control
+      final sensitivity = 2.0 / screenHeight; // Adjust sensitivity as needed
+      final brightnessChange = dragDistance * sensitivity;
+      
+      final newBrightness = (_initialBrightness + brightnessChange).clamp(0.0, 1.0);
+      
+      setState(() {
+        _currentBrightness = newBrightness;
+      });
+      
+      ScreenBrightness().setApplicationScreenBrightness(newBrightness);
+      
+    } else if (_isAdjustingVolume) {
+      // Volume control - vertical drag on right side
+      final dragDistance = _dragStartY - currentY; // Inverted for intuitive control
+      final sensitivity = 1.0 / screenHeight; // Adjust sensitivity as needed
+      final volumeChange = dragDistance * sensitivity;
+      
+      final newVolume = (_initialVolume + volumeChange).clamp(0.0, 1.0);
+      
+      setState(() {
+        _currentVolume = newVolume;
+      });
+      
+      VolumeController.instance.setVolume(newVolume);
+      
+    } else if (_isSeeking) {
+      // Seek control - horizontal drag in center
+      final dragDistance = currentX - _dragStartX;
+      final seekAmount = (dragDistance / (screenWidth / 2)) * 60;
+      final seekDuration = Duration(seconds: seekAmount.round());
+      final newPosition = _seekStartPos + seekDuration;
+      final videoDuration = _videoPlayerController.value.duration;
+      
+      final clampedPosition = newPosition < Duration.zero
+          ? Duration.zero
+          : newPosition > videoDuration
+          ? videoDuration
+          : newPosition;
+      
+      setState(() {
+        _currentSeekPos = clampedPosition;
+      });
+    }
+  }
+
+  void _onPanEnd(DragEndDetails details) {
+    if (_isSeeking) {
+      _videoPlayerController.seekTo(_currentSeekPos);
+    }
+    
     setState(() {
       _isSeeking = false;
+      _isAdjustingBrightness = false;
+      _isAdjustingVolume = false;
     });
   }
 
@@ -245,15 +321,17 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                   : _videoPlayerController.value.isInitialized
                       ? GestureDetector(
                           onDoubleTapDown: _handleDoubleTap,
-                          onHorizontalDragStart: _onHorizontalDragStart,
-                          onHorizontalDragUpdate: _onHorizontalDragUpdate,
-                          onHorizontalDragEnd: _onHorizontalDragEnd,
+                          onPanStart: _onPanStart,
+                          onPanUpdate: _onPanUpdate,
+                          onPanEnd: _onPanEnd,
                           child: Stack(
                             alignment: Alignment.center,
                             children: [
                               Chewie(controller: _chewieController),
-                              // Show a seeking indicator when the user is swiping
+                              // Show indicators when adjusting
                               if (_isSeeking) _buildSeekingIndicator(),
+                              if (_isAdjustingBrightness) _buildBrightnessIndicator(),
+                              if (_isAdjustingVolume) _buildVolumeIndicator(),
                             ],
                           ),
                         )
@@ -266,7 +344,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     );
   }
 
-  // A simple UI widget to show the user they are seeking.
+  // Seeking indicator
   Widget _buildSeekingIndicator() {
     final positionText = _formatDuration(_currentSeekPos);
     final durationText = _formatDuration(_videoPlayerController.value.duration);
@@ -295,13 +373,93 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
               Text(
                 '$positionText / $durationText',
                 style: const TextStyle(
-                  color: Color(
-                    0xFFAEAEAE,
-                  ), // Equivalent to CupertinoColors.lightBackgroundGray
+                  color: Color(0xFFAEAEAE),
                   fontSize: 16,
                 ),
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Brightness indicator
+  Widget _buildBrightnessIndicator() {
+    final percentage = (_currentBrightness * 100).round();
+    
+    return Positioned(
+      left: 50,
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(12)),
+        child: Material(
+          color: Color(0x99000000),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  _currentBrightness > 0.5 
+                      ? CupertinoIcons.brightness_solid 
+                      : CupertinoIcons.brightness,
+                  color: Colors.white,
+                  size: 24,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  '$percentage%',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Volume indicator
+  Widget _buildVolumeIndicator() {
+    final percentage = (_currentVolume * 100).round();
+    
+    return Positioned(
+      right: 50,
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(12)),
+        child: Material(
+          color: Color(0x99000000),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  _currentVolume == 0 
+                      ? CupertinoIcons.speaker_slash_fill
+                      : _currentVolume < 0.3
+                      ? CupertinoIcons.speaker_1_fill
+                      : _currentVolume < 0.7
+                      ? CupertinoIcons.speaker_2_fill
+                      : CupertinoIcons.speaker_3_fill,
+                  color: Colors.white,
+                  size: 24,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  '$percentage%',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
