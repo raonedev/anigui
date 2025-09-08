@@ -332,7 +332,7 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
                     SliverList.builder(
                       itemCount:isDub?animeDetail.availableEpisodesDetail?.dub?.length ?? 0: animeDetail.availableEpisodesDetail?.sub?.length ?? 0,
                       itemBuilder: (context, index) {
-                        final  ep;
+                        final String? ep;
                         if (isDub) {
                           ep =  animeDetail.availableEpisodesDetail?.dub?[index];
                         } else {
