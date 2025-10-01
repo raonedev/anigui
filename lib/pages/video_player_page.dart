@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:chewie/chewie.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,18 +11,18 @@ import 'package:volume_controller/volume_controller.dart';
 
 class VideoPlayerPage extends StatefulWidget {
   const VideoPlayerPage({super.key, required this.videoUrls});
-   final List<String> videoUrls;
+  final List<String> videoUrls;
 
   @override
   State<VideoPlayerPage> createState() => _VideoPlayerPageState();
 }
 
 class _VideoPlayerPageState extends State<VideoPlayerPage> {
-   late VideoPlayerController _videoPlayerController;
+  late VideoPlayerController _videoPlayerController;
   late ChewieController _chewieController;
   bool _isLoading = true;
   int _currentVideoIndex = 0;
-  
+
   // Variables for swipe-to-seek functionality
   double _dragStartX = 0.0;
   Duration _seekStartPos = Duration.zero;
@@ -36,8 +37,9 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
   bool _isAdjustingVolume = false;
   double _initialBrightness = 0.5;
   double _initialVolume = 0.5;
+  
 
-   @override
+  @override
   void initState() {
     super.initState();
     // Force the screen into landscape mode when this widget is initialized.
@@ -55,17 +57,17 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
       // Get current brightness
       _currentBrightness = await ScreenBrightness().application;
       _initialBrightness = _currentBrightness;
-      
+
       // Get current volume
       _currentVolume = await VolumeController.instance.getVolume();
       _initialVolume = _currentVolume;
-      
+
       setState(() {});
     } catch (e) {
       debugPrint('Error initializing brightness/volume: $e');
     }
   }
-  
+
   Future<void> _initializePlayer() async {
     // If we've tried all URLs, show error
     if (_currentVideoIndex >= widget.videoUrls.length) {
@@ -77,7 +79,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     }
 
     final videoUrl = widget.videoUrls[_currentVideoIndex];
-    if(videoUrl.isEmpty) {
+    if (videoUrl.isEmpty) {
       _tryNextVideo();
       return;
     }
@@ -85,7 +87,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     _videoPlayerController = VideoPlayerController.networkUrl(
       Uri.parse(videoUrl),
     );
-    
+
     try {
       await _videoPlayerController.initialize();
       _createChewieController();
@@ -101,8 +103,8 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
 
     VolumeController.instance.showSystemUI = false;
   }
-  
-   void _tryNextVideo() {
+
+  void _tryNextVideo() {
     log("_tryNextVideo");
     setState(() {
       _currentVideoIndex++;
@@ -111,12 +113,15 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     _initializePlayer();
   }
 
-   void _createChewieController() {
+  void _createChewieController() {
     _chewieController = ChewieController(
       videoPlayerController: _videoPlayerController,
       autoPlay: true,
       looping: false,
       allowFullScreen: false,
+      overlay: Text("This is title",style: Theme.of(context).textTheme.titleMedium?.copyWith(
+        color: Colors.white,
+      ),),
       errorBuilder: (context, errorMessage) {
         return Material(
           child: Center(
@@ -141,8 +146,18 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
         backgroundColor: Color.fromRGBO(41, 41, 41, 0.7),
         iconColor: Colors.white,
       ),
+      bufferingBuilder: (context) {
+        return Material(
+          color: Colors.transparent,
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+            child: Center(child: CupertinoActivityIndicator(radius: 20)),
+          ),
+        );
+      },
     );
   }
+
 
   @override
   void dispose() {
@@ -157,8 +172,10 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ]);
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: SystemUiOverlay.values);
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: SystemUiOverlay.values,
+    );
     super.dispose();
   }
 
@@ -204,7 +221,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     setState(() {
       _dragStartX = startX;
       _dragStartY = startY;
-      
+
       // Determine if this is a brightness, volume, or seek gesture based on position
       if (startX < screenWidth * 0.3) {
         // Left side - brightness control
@@ -230,32 +247,35 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
 
     if (_isAdjustingBrightness) {
       // Brightness control - vertical drag on left side
-      final dragDistance = _dragStartY - currentY; // Inverted for intuitive control
+      final dragDistance =
+          _dragStartY - currentY; // Inverted for intuitive control
       final sensitivity = 2.0 / screenHeight; // Adjust sensitivity as needed
       final brightnessChange = dragDistance * sensitivity;
-      
-      final newBrightness = (_initialBrightness + brightnessChange).clamp(0.0, 1.0);
-      
+
+      final newBrightness = (_initialBrightness + brightnessChange).clamp(
+        0.0,
+        1.0,
+      );
+
       setState(() {
         _currentBrightness = newBrightness;
       });
-      
+
       ScreenBrightness().setApplicationScreenBrightness(newBrightness);
-      
     } else if (_isAdjustingVolume) {
       // Volume control - vertical drag on right side
-      final dragDistance = _dragStartY - currentY; // Inverted for intuitive control
+      final dragDistance =
+          _dragStartY - currentY; // Inverted for intuitive control
       final sensitivity = 1.0 / screenHeight; // Adjust sensitivity as needed
       final volumeChange = dragDistance * sensitivity;
-      
+
       final newVolume = (_initialVolume + volumeChange).clamp(0.0, 1.0);
-      
+
       setState(() {
         _currentVolume = newVolume;
       });
-      
+
       VolumeController.instance.setVolume(newVolume);
-      
     } else if (_isSeeking) {
       // Seek control - horizontal drag in center
       final dragDistance = currentX - _dragStartX;
@@ -263,13 +283,13 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
       final seekDuration = Duration(seconds: seekAmount.round());
       final newPosition = _seekStartPos + seekDuration;
       final videoDuration = _videoPlayerController.value.duration;
-      
+
       final clampedPosition = newPosition < Duration.zero
           ? Duration.zero
           : newPosition > videoDuration
           ? videoDuration
           : newPosition;
-      
+
       setState(() {
         _currentSeekPos = clampedPosition;
       });
@@ -280,7 +300,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     if (_isSeeking) {
       _videoPlayerController.seekTo(_currentSeekPos);
     }
-    
+
     setState(() {
       _isSeeking = false;
       _isAdjustingBrightness = false;
@@ -300,47 +320,67 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                   color: CupertinoColors.white,
                 )
               : _currentVideoIndex >= widget.videoUrls.length
-                  ? Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'All videos failed to load.',
-                          style: TextStyle(color: CupertinoColors.white),
-                        ),
-                        const SizedBox(height: 16),
-                        ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              _currentVideoIndex = 0;
-                              _isLoading = true;
-                            });
-                            _initializePlayer();
-                          },
-                          child: const Text('Retry All Videos'),
-                        ),
-                      ],
-                    )
-                  : _videoPlayerController.value.isInitialized
-                      ? GestureDetector(
-                          onDoubleTapDown: _handleDoubleTap,
-                          onPanStart: _onPanStart,
-                          onPanUpdate: _onPanUpdate,
-                          onPanEnd: _onPanEnd,
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Chewie(controller: _chewieController),
-                              // Show indicators when adjusting
-                              if (_isSeeking) _buildSeekingIndicator(),
-                              if (_isAdjustingBrightness) _buildBrightnessIndicator(),
-                              if (_isAdjustingVolume) _buildVolumeIndicator(),
-                            ],
-                          ),
-                        )
-                      : const Text(
-                          'Failed to load video.',
-                          style: TextStyle(color: CupertinoColors.white),
-                        ),
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'All videos failed to load.',
+                      style: TextStyle(color: CupertinoColors.white),
+                    ),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _currentVideoIndex = 0;
+                          _isLoading = true;
+                        });
+                        _initializePlayer();
+                      },
+                      child: const Text('Retry All Videos'),
+                    ),
+                  ],
+                )
+              : _videoPlayerController.value.isInitialized
+              ? GestureDetector(
+                  onDoubleTapDown: _handleDoubleTap,
+                  onPanStart: _onPanStart,
+                  onPanUpdate: _onPanUpdate,
+                  onPanEnd: _onPanEnd,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Chewie(controller: _chewieController),
+                      // Show indicators when adjusting
+                      if (_isSeeking) _buildSeekingIndicator(),
+                      if (_isAdjustingBrightness) _buildBrightnessIndicator(),
+                      if (_isAdjustingVolume) _buildVolumeIndicator(),
+                      // if (!_isPlaying)
+                      //   Positioned(
+                      //     top: 16,
+                      //     left: 20,
+                      //     child: Container(
+                      //       padding: const EdgeInsets.symmetric(
+                      //         horizontal: 8,
+                      //         vertical: 4,
+                      //       ),
+                      //       color: const Color.fromRGBO(41, 41, 41, 0.7),
+                      //       child: Text(
+                      //         "title",
+                      //         style: const TextStyle(
+                      //           color: Colors.white,
+                      //           fontWeight: FontWeight.bold,
+                      //           fontSize: 14,
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                    ],
+                  ),
+                )
+              : const Text(
+                  'Failed to load video.',
+                  style: TextStyle(color: CupertinoColors.white),
+                ),
         ),
       ),
     );
@@ -374,10 +414,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
               const SizedBox(height: 4),
               Text(
                 '$positionText / $durationText',
-                style: const TextStyle(
-                  color: Color(0xFFAEAEAE),
-                  fontSize: 16,
-                ),
+                style: const TextStyle(color: Color(0xFFAEAEAE), fontSize: 16),
               ),
             ],
           ),
@@ -389,7 +426,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
   // Brightness indicator
   Widget _buildBrightnessIndicator() {
     final percentage = (_currentBrightness * 100).round();
-    
+
     return Positioned(
       left: 50,
       child: ClipRRect(
@@ -402,8 +439,8 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
-                  _currentBrightness > 0.5 
-                      ? CupertinoIcons.brightness_solid 
+                  _currentBrightness > 0.5
+                      ? CupertinoIcons.brightness_solid
                       : CupertinoIcons.brightness,
                   color: Colors.white,
                   size: 24,
@@ -428,7 +465,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
   // Volume indicator
   Widget _buildVolumeIndicator() {
     final percentage = (_currentVolume * 100).round();
-    
+
     return Positioned(
       right: 50,
       child: ClipRRect(
@@ -441,7 +478,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
-                  _currentVolume == 0 
+                  _currentVolume == 0
                       ? CupertinoIcons.speaker_slash_fill
                       : _currentVolume < 0.3
                       ? CupertinoIcons.speaker_1_fill

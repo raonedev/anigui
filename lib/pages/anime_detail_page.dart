@@ -400,6 +400,7 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (_) => VideoPlayerPage(
+                                          
                                           videoUrls: videoUrls,
                                         ),
                                       ),

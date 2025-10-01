@@ -1,4 +1,4 @@
-package com.raonedev.anigui.anigui
+package com.raonedev.anigui
 
 import io.flutter.embedding.android.FlutterActivity
 

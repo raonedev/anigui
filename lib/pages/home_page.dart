@@ -23,9 +23,9 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent, // Set your desired color here
+        statusBarColor: Colors.transparent,
         statusBarIconBrightness:
-            Brightness.light, // For icons/text on the status bar
+            Brightness.light,
       ),
     );
     return Scaffold(

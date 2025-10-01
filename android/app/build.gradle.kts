@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.raonedev.anigui.anigui"
+    namespace = "com.raonedev.anigui"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.raonedev.anigui.anigui"
+        applicationId = "com.raonedev.anigui"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
