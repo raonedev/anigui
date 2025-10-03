@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - master
-    tags:
-      - 'v*.*.*'
   pull_request:
     branches:
       - master
@@ -49,17 +47,9 @@ jobs:
       - name: Build release APK
         run: fvm flutter build apk --release
 
-      # 8. Upload APK as a workflow artifact
-      - name: Upload APK artifact
-        uses: actions/upload-artifact@v4
+      # 8. Create GitHub Release and Upload APK Asset (only for tagged pushes)
+      - name: Push to Releases
+        uses: ncipollo/release-action@v1
         with:
-          name: release-apk-artifact
-          path: build/app/outputs/flutter-apk/app-release.apk
-
-      # 9. Create GitHub Release and Upload APK Asset (only for tagged pushes)
-      - name: Create GitHub Release and Upload APK Asset
-        if: startsWith(github.ref, 'refs/tags/v')
-        uses: softprops/action-gh-release@v2
-        with:
-          files: build/app/outputs/flutter-apk/app-release.apk
-          name: Release ${{ github.ref_name }}
+          artifacts: "build/app/outputs/apk/release/*"
+          tag: v1.0.${{ github.run_number }}
