@@ -4,60 +4,62 @@ on:
   push:
     branches:
       - master
-    # Trigger a full build and release when a new tag (e.g., v1.0.0) is pushed
     tags:
-      - 'v*.*.*' 
+      - 'v*.*.*'
   pull_request:
     branches:
       - master
+
+# Add permissions for creating releases
+permissions:
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Checkout code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 1. Setup Flutter/Dart SDK using subosito/flutter-action
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+      # 2. Set up Dart (without installing Flutter, as FVM will handle it)
+      - name: Setup Dart
+        uses: dart-lang/setup-dart@v1
         with:
-          channel: 'stable' 
+          sdk: stable
 
-      # 2. Install FVM globally
+      # 3. Install FVM globally
       - name: Install FVM
         run: dart pub global activate fvm
 
-      # 3. Install the Flutter version defined in your .fvm/fvm_config.json
+      # 4. Add FVM to PATH
+      - name: Add FVM to PATH
+        run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
+
+      # 5. Install the Flutter version defined in .fvmrc
       - name: Install Flutter via FVM
         run: fvm install
 
-      # 4. Get dependencies using fvm
+      # 6. Get dependencies using FVM
       - name: Get dependencies
         run: fvm flutter pub get
 
-      # 5. Build the release APK
+      # 7. Build the release APK
       - name: Build release APK
         run: fvm flutter build apk --release
 
-      # 6. Upload APK as a workflow artifact (optional, for easy access from the run summary)
+      # 8. Upload APK as a workflow artifact
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: release-apk-artifact
           path: build/app/outputs/flutter-apk/app-release.apk
 
-      # 7. Create GitHub Release and attach the APK
-      # This step only runs if the workflow was triggered by pushing a tag.
+      # 9. Create GitHub Release and Upload APK Asset (only for tagged pushes)
       - name: Create GitHub Release and Upload APK Asset
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
         with:
-          # The file path must point to the generated APK
           files: build/app/outputs/flutter-apk/app-release.apk
-          # Optional: Use the git tag as the release name
           name: Release ${{ github.ref_name }}
-          draft: false
-          prerelease: false
-          # GITHUB_TOKEN is automatically available
