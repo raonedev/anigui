@@ -16,9 +16,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # 1. Add this step to install Flutter/Dart SDK 
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          # Optional: Specify a Flutter version if needed, e.g., '3.19.0' or 'stable'
+          # version: '3.19.0' 
+          channel: 'stable' 
+
       - name: Install FVM
-        run: |
-          dart pub global activate fvm
+        # Dart is now available in the path
+        run: dart pub global activate fvm
 
       - name: Install Flutter via FVM
         run: fvm install
