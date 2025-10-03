@@ -1,0 +1,36 @@
+name: Build Flutter APK with FVM
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install FVM
+        run: |
+          dart pub global activate fvm
+
+      - name: Install Flutter via FVM
+        run: fvm install
+
+      - name: Get dependencies
+        run: fvm flutter pub get
+
+      - name: Build release APK
+        run: fvm flutter build apk --release
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
