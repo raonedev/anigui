@@ -18,6 +18,14 @@ class AnimeOvaCubit extends Cubit<AnimeOvaState> {
       final result = await _apiService.fetchAnimeByTypes(types: ["OVA"]);
       // Update database with fresh data
       await _databaseService.insertAnimeCardsBatch(result);
+      final cachedAnime = await _databaseService.getAnimeCardsByType('OVA');
+      // If we have cached data, emit it immediately
+      if (cachedAnime.isNotEmpty) {
+        emit(AnimeOvaSuccessState(
+          animes: cachedAnime,
+        ));
+        return;
+      }
       emit(AnimeOvaSuccessState(animes: result));
     } catch (e) {
       // if Network fail, try to get cached data from database

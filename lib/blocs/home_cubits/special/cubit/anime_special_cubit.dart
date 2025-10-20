@@ -19,6 +19,14 @@ class AnimeSpecialCubit extends Cubit<AnimeSpecialState> {
       final result = await _apiService.fetchAnimeByTypes(types: ['Special']);
       // Update database with fresh data
       await _databaseService.insertAnimeCardsBatch(result);
+      final cachedAnime = await _databaseService.getAnimeCardsByType('Special');
+      // If we have cached data, emit it immediately
+      if (cachedAnime.isNotEmpty) {
+        emit(AnimeSpecialSuccessState(
+          animes: cachedAnime,
+        ));
+        return;
+      }
       emit(AnimeSpecialSuccessState(animes: result));
     } catch (e) {
       // if Network fail, try to get cached data from database

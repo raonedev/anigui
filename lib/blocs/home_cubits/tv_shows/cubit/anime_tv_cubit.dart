@@ -15,8 +15,18 @@ class AnimeTvCubit extends Cubit<AnimeTvState> {
     try {
       emit(AnimeTvLoadingState());
       final result = await _apiService.fetchAnimeByTypes(types: ['TV']);
+
+      // if Network fail, try to get cached data from database
+      final cachedAnime = await _databaseService.getAnimeCardsByType('TV');
       // Update database with fresh data
       await _databaseService.insertAnimeCardsBatch(result);
+      // If we have cached data, emit it immediately
+      if (cachedAnime.isNotEmpty) {
+        emit(AnimeTvSuccessState(
+          animes: cachedAnime,
+        ));
+        return;
+      }
       emit(AnimeTvSuccessState(animes: result));
     } catch (e) {
       // if Network fail, try to get cached data from database

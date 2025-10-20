@@ -468,7 +468,7 @@ class DbHelper {
     return AnimeModel(
       id: map['id'] as String?,
       updateQueue: map['updateQueue'] as String?,
-      isAdult: map['isAdult'] as bool?,
+      isAdult: (map['isAdult'] as int?) == 1,
       manualUpdated: map['manualUpdated'] as bool?,
       dailyUpdateNeeded: map['dailyUpdateNeeded'] as bool?,
       hidden: map['hidden'] as bool?,
