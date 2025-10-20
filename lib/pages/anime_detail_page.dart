@@ -13,6 +13,7 @@ import '../services/http_api_service.dart';
 
 class AnimeDetailPage extends StatefulWidget {
   const AnimeDetailPage({super.key, required this.animeId});
+
   final String? animeId;
 
   @override
@@ -21,8 +22,8 @@ class AnimeDetailPage extends StatefulWidget {
 
 class _AnimeDetailPageState extends State<AnimeDetailPage> {
   bool isExpanded = false;
-  bool isLoading= false;
-  bool isDub=false;
+  bool isLoading = false;
+  bool isDub = false;
 
   @override
   void initState() {
@@ -302,41 +303,53 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
                                   ),
                             ),
                             Spacer(),
-                            Text("SUB",style: Theme.of(context).textTheme.bodyMedium
+                            Text(
+                              "SUB",
+                              style: Theme.of(context).textTheme.bodyMedium
                                   ?.copyWith(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
-                                  ),),
+                                  ),
+                            ),
                             const SizedBox(width: 4),
                             Transform.scale(
                               scale: 0.8,
-                              child: CupertinoSwitch(value: isDub, onChanged: (value) {
-                                setState(() {
-                                  isDub=value;
-                                });
-                              },),
+                              child: CupertinoSwitch(
+                                value: isDub,
+                                onChanged: (value) {
+                                  setState(() {
+                                    isDub = value;
+                                  });
+                                },
+                              ),
                             ),
                             const SizedBox(width: 4),
-                            Text("DUB",style: Theme.of(context).textTheme.bodyMedium
+                            Text(
+                              "DUB",
+                              style: Theme.of(context).textTheme.bodyMedium
                                   ?.copyWith(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
-                                  ),),
+                                  ),
+                            ),
                           ],
                         ),
                       ),
                     ),
 
                     // Episodes list
-
                     SliverList.builder(
-                      itemCount:isDub?animeDetail.availableEpisodesDetail?.dub?.length ?? 0: animeDetail.availableEpisodesDetail?.sub?.length ?? 0,
+                      itemCount: isDub
+                          ? animeDetail.availableEpisodesDetail?.dub?.length ??
+                                0
+                          : animeDetail.availableEpisodesDetail?.sub?.length ??
+                                0,
                       itemBuilder: (context, index) {
                         final String? ep;
                         if (isDub) {
-                          ep =  animeDetail.availableEpisodesDetail?.dub?[index];
+                          ep = animeDetail.availableEpisodesDetail?.dub?[index];
                         } else {
-                          ep =  animeDetail.availableEpisodesDetail?.sub?[index];
+                          ep = animeDetail.availableEpisodesDetail?.sub?[index];
                         }
                         return Column(
                           mainAxisSize: MainAxisSize.min,
@@ -349,17 +362,20 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
                               ),
                               leading: Container(
                                 decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.circular(12),
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 12),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                    vertical: 12,
+                                  ),
                                   child: Text(
                                     ep.toString(),
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 20
+                                      fontSize: 20,
                                     ),
                                   ),
                                 ),
@@ -370,14 +386,14 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
                               ),
                               onTap: () async {
                                 setState(() {
-                                  isLoading=true;
+                                  isLoading = true;
                                 });
                                 final apiservice = ApiService();
                                 final res = await apiservice
                                     .fetchEpisodeSources(
                                       showId: animeDetail.id ?? '',
-                                      episode: ep??"",
-                                      translationType: isDub?"dub":"sub",
+                                      episode: ep ?? "",
+                                      translationType: isDub ? "dub" : "sub",
                                     );
                                 // Extract all URLs from the response
                                 List<String> videoUrls = res
@@ -393,14 +409,13 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
 
                                 if (videoUrls.isNotEmpty) {
                                   setState(() {
-                                    isLoading=false;
+                                    isLoading = false;
                                   });
                                   if (context.mounted) {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (_) => VideoPlayerPage(
-                                          
                                           videoUrls: videoUrls,
                                         ),
                                       ),
@@ -409,10 +424,15 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
                                 }
                               },
                             ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                                child: Divider(color: Colors.white,thickness: 0.2,),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20.0,
                               ),
+                              child: Divider(
+                                color: Colors.white,
+                                thickness: 0.2,
+                              ),
+                            ),
                           ],
                         );
                       },
@@ -420,14 +440,16 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
                   ],
                 ),
 
-                
-                if(isLoading) 
-                BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-                  child: Center(
-                    child: CupertinoActivityIndicator(color: Colors.white,radius: 30,),
+                if (isLoading)
+                  BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                    child: Center(
+                      child: CupertinoActivityIndicator(
+                        color: Colors.white,
+                        radius: 30,
+                      ),
+                    ),
                   ),
-                ),
               ],
             );
           } else {
