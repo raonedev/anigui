@@ -2,6 +2,7 @@ import 'package:anigui/pages/anime_detail_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../blocs/search/cubit/anime_search_cubit.dart';
 import '../common/anime_card.dart';
 import '../common/ui/animated_grid.dart';
@@ -15,11 +16,41 @@ class AnimeSearchPage extends StatefulWidget {
 
 class _AnimeSearchPageState extends State<AnimeSearchPage> {
   final TextEditingController _controller = TextEditingController();
+  final String searchHistoryKey = "search_history";
+  List<String> _searchItems = [];
 
-  void _onSearch(BuildContext context) {
+  @override
+  void initState() {
+    super.initState();
+    _loadSearchHistoryList();
+  }
+
+  Future<void> _loadSearchHistoryList() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _searchItems = prefs.getStringList(searchHistoryKey) ?? [];
+    });
+  }
+
+  void _onSearch(BuildContext context) async {
     final query = _controller.text.trim();
     if (query.isNotEmpty) {
       context.read<AnimeSearchCubit>().searchAnime(name: query);
+      await addStringIfNotExists(query);
+      _loadSearchHistoryList();
+    }
+  }
+
+  Future<void> addStringIfNotExists(String newValue) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    // Get existing list (or empty list if not found)
+    List<String> existingList = prefs.getStringList(searchHistoryKey) ?? [];
+
+    // Check if value exists
+    if (!existingList.contains(newValue)) {
+      existingList.add(newValue);
+      await prefs.setStringList(searchHistoryKey, existingList);
     }
   }
 
@@ -125,6 +156,19 @@ class _AnimeSearchPageState extends State<AnimeSearchPage> {
                 child: Text(
                   "Error: ${state.errorMessage}",
                   style: const TextStyle(color: Colors.redAccent),
+                ),
+              );
+            } else if (state is AnimeSearchInitialState) {
+              return ListView.builder(
+                itemCount: _searchItems.length,
+                itemBuilder: (context, index) => Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  child: Text(
+                    _searchItems[index],
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyMedium?.copyWith(color: Colors.white),
+                  ),
                 ),
               );
             }
