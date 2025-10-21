@@ -10,8 +10,9 @@ import 'package:screen_brightness/screen_brightness.dart';
 import 'package:volume_controller/volume_controller.dart';
 
 class VideoPlayerPage extends StatefulWidget {
-  const VideoPlayerPage({super.key, required this.videoUrls});
+  const VideoPlayerPage({super.key, required this.videoUrls, required this.episodeNo});
   final List<String> videoUrls;
+  final String episodeNo;
 
   @override
   State<VideoPlayerPage> createState() => _VideoPlayerPageState();
@@ -119,9 +120,12 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
       autoPlay: true,
       looping: false,
       allowFullScreen: false,
-      overlay: Text("This is title",style: Theme.of(context).textTheme.titleMedium?.copyWith(
-        color: Colors.white,
-      ),),
+      overlay: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text("ep ${widget.episodeNo}",style: Theme.of(context).textTheme.titleMedium?.copyWith(
+          color: Colors.white,
+        ),),
+      ),
       errorBuilder: (context, errorMessage) {
         return Material(
           child: Center(
@@ -354,26 +358,25 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                       if (_isSeeking) _buildSeekingIndicator(),
                       if (_isAdjustingBrightness) _buildBrightnessIndicator(),
                       if (_isAdjustingVolume) _buildVolumeIndicator(),
-                      // if (!_isPlaying)
-                      //   Positioned(
-                      //     top: 16,
-                      //     left: 20,
-                      //     child: Container(
-                      //       padding: const EdgeInsets.symmetric(
-                      //         horizontal: 8,
-                      //         vertical: 4,
-                      //       ),
-                      //       color: const Color.fromRGBO(41, 41, 41, 0.7),
-                      //       child: Text(
-                      //         "title",
-                      //         style: const TextStyle(
-                      //           color: Colors.white,
-                      //           fontWeight: FontWeight.bold,
-                      //           fontSize: 14,
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ),
+                        // Positioned(
+                        //   top: 16,
+                        //   left: 20,
+                        //   child: Container(
+                        //     padding: const EdgeInsets.symmetric(
+                        //       horizontal: 8,
+                        //       vertical: 4,
+                        //     ),
+                        //     color: const Color.fromRGBO(41, 41, 41, 0.7),
+                        //     child: Text(
+                        //       "ep ${widget.episodeNo}",
+                        //       style: const TextStyle(
+                        //         color: Colors.white,
+                        //         fontWeight: FontWeight.bold,
+                        //         fontSize: 14,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                     ],
                   ),
                 )
