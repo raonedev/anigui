@@ -356,7 +356,7 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
                           children: [
                             ListTile(
                               title: Text(
-                                "Episode $ep",
+                                "Episode ",
                                 style: Theme.of(context).textTheme.bodyMedium
                                     ?.copyWith(color: Colors.white),
                               ),
@@ -417,6 +417,7 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
                                       MaterialPageRoute(
                                         builder: (_) => VideoPlayerPage(
                                           videoUrls: videoUrls,
+                                          episodeNo: ep??"",
                                         ),
                                       ),
                                     );

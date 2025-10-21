@@ -16,6 +16,7 @@ class AnimeSearchPage extends StatefulWidget {
 
 class _AnimeSearchPageState extends State<AnimeSearchPage> {
   final TextEditingController _controller = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
   final String searchHistoryKey = "search_history";
   List<String> _searchItems = [];
 
@@ -55,6 +56,12 @@ class _AnimeSearchPageState extends State<AnimeSearchPage> {
   }
 
   @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black, // Dark theme
@@ -64,6 +71,7 @@ class _AnimeSearchPageState extends State<AnimeSearchPage> {
         automaticallyImplyLeading: false,
         title: CupertinoSearchTextField(
           controller: _controller,
+          focusNode: _focusNode,
           style: const TextStyle(color: Colors.white),
           placeholder: "Search anime...",
           placeholderStyle: TextStyle(color: Colors.grey[500]),
@@ -80,7 +88,8 @@ class _AnimeSearchPageState extends State<AnimeSearchPage> {
               return const Center(
                 child: CupertinoActivityIndicator(color: Colors.white),
               );
-            } else if (state is AnimeSearchSuccessState) {
+            }
+            else if (state is AnimeSearchSuccessState) {
               if (state.animes.isEmpty) {
                 return const Center(
                   child: Text(
@@ -144,30 +153,40 @@ class _AnimeSearchPageState extends State<AnimeSearchPage> {
               //           );
               //         },
               //       );
-            } else if (state is AnimeSearchEmptyState) {
+            }
+            else if (state is AnimeSearchEmptyState) {
               return const Center(
                 child: Text(
                   "No results found",
                   style: TextStyle(color: Colors.white70),
                 ),
               );
-            } else if (state is AnimeSearchErrorState) {
+            }
+            else if (state is AnimeSearchErrorState) {
               return Center(
                 child: Text(
                   "Error: ${state.errorMessage}",
                   style: const TextStyle(color: Colors.redAccent),
                 ),
               );
-            } else if (state is AnimeSearchInitialState) {
-              return ListView.builder(
+            }
+            else if (state is AnimeSearchInitialState) {
+              return ListView.separated(
+                separatorBuilder: (context, index) => Divider(color: Colors.grey[850],),
                 itemCount: _searchItems.length,
                 itemBuilder: (context, index) => Padding(
                   padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  child: Text(
-                    _searchItems[index],
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodyMedium?.copyWith(color: Colors.white),
+                  child: GestureDetector(
+                    onTap: () {
+                      _controller.text=_searchItems[index];
+                      _focusNode.requestFocus();
+                    },
+                    child: Text(
+                      _searchItems[index],
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodyMedium?.copyWith(color: Colors.white),
+                    ),
                   ),
                 ),
               );

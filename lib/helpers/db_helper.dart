@@ -469,7 +469,7 @@ class DbHelper {
       id: map['id'] as String?,
       updateQueue: map['updateQueue'] as String?,
       isAdult: (map['isAdult'] as int?) == 1,
-      manualUpdated: map['manualUpdated'] as bool?,
+      manualUpdated: (map['manualUpdated'] as int?) == 1, //map['manualUpdated'] as bool?,
       dailyUpdateNeeded: map['dailyUpdateNeeded'] as bool?,
       hidden: map['hidden'] as bool?,
       lastUpdateStart: map['lastUpdateStart'] as String?,
