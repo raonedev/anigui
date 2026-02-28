@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 import 'dart:ui';
 
@@ -5,20 +6,26 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player/video_player.dart';
 import 'package:screen_brightness/screen_brightness.dart';
 import 'package:volume_controller/volume_controller.dart';
 
+import '../blocs/episodes_bloc/dart/anime_episodes_cubit.dart';
+
 class VideoPlayerPage extends StatefulWidget {
-  const VideoPlayerPage({super.key, required this.videoUrls, required this.episodeNo});
+  const VideoPlayerPage({super.key, required this.videoUrls, required this.episodeNo, required this.animeId, required this.isSub});
   final List<String> videoUrls;
   final String episodeNo;
+  final String animeId;
+  final bool isSub;
 
   @override
   State<VideoPlayerPage> createState() => _VideoPlayerPageState();
 }
 
 class _VideoPlayerPageState extends State<VideoPlayerPage> {
+  Timer? _watchTimeTimer;
   late VideoPlayerController _videoPlayerController;
   late ChewieController _chewieController;
   bool _isLoading = true;
@@ -160,14 +167,31 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
         );
       },
     );
+    _startWatchTimeTimer();
   }
 
+
+  void _startWatchTimeTimer() {
+  _watchTimeTimer?.cancel();
+  _watchTimeTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
+    if (_videoPlayerController.value.isPlaying) {
+      final currentPosition = _videoPlayerController.value.position.inSeconds;
+      context.read<AnimeEpisodesCubit>().updateWatchTime(
+        animeId: widget.animeId,
+        episodeNumber: int.tryParse(widget.episodeNo) ?? 0,
+        isSub: widget.isSub,
+        watchedTime: currentPosition,
+      );
+    }
+  });
+}
 
   @override
   void dispose() {
     // Ensure controllers are disposed to free up resources.
     _videoPlayerController.dispose();
     _chewieController.dispose();
+    _watchTimeTimer?.cancel(); 
 
     // Reset preferred orientations to allow both portrait and landscape.
     SystemChrome.setPreferredOrientations([

@@ -5,11 +5,14 @@ import 'package:sqflite/sqflite.dart';
 
 import '../models/anime_home_card.dart';
 import '../models/anime_model.dart';
+import '../models/episodes_model.dart';
 
 class DbHelper {
   static final DbHelper _instance = DbHelper._internal();
   static Database? _database;
+
   factory DbHelper() => _instance;
+
   DbHelper._internal();
 
   Future<Database> get database async {
@@ -138,6 +141,20 @@ class DbHelper {
       CREATE INDEX IF NOT EXISTS idx_search_history_lastSearched 
       ON search_history(lastSearched DESC)
     ''');
+
+    // table to store url and timeline of episode watched by user
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS anime_episodes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        animeId TEXT NOT NULL,
+        episodeNumber INTEGER NOT NULL, -- Added NOT NULL for data integrity
+        watchedTime INTEGER DEFAULT 0,  -- Added default value
+        isCompletelyWatched INTEGER DEFAULT 0,
+        isSub INTEGER DEFAULT 1,              -- 1 for sub, 0 for dub
+        video_urls TEXT NOT NULL,       -- Store as JSON string: jsonEncode(['url1', 'url2'])
+        UNIQUE(animeId, episodeNumber)  -- Prevents duplicate rows for the same episode
+      )
+  ''');
   }
 
   // ==================== ANIME CARDS OPERATIONS ====================
@@ -469,7 +486,8 @@ class DbHelper {
       id: map['id'] as String?,
       updateQueue: map['updateQueue'] as String?,
       isAdult: (map['isAdult'] as int?) == 1,
-      manualUpdated: (map['manualUpdated'] as int?) == 1, //map['manualUpdated'] as bool?,
+      manualUpdated: (map['manualUpdated'] as int?) == 1,
+      //map['manualUpdated'] as bool?,
       dailyUpdateNeeded: map['dailyUpdateNeeded'] as bool?,
       hidden: map['hidden'] as bool?,
       lastUpdateStart: map['lastUpdateStart'] as String?,
@@ -576,5 +594,109 @@ class DbHelper {
   Future<int> clearAllAnimeDetails() async {
     final db = await database;
     return await db.delete('anime_details');
+  }
+
+  // ==================== Watch history =========
+  // Insert a new episode
+  Future<int> insertEpisode(EpisodeModel episode) async {
+    final db = await database;
+
+    return await db.insert(
+      'anime_episodes',
+      episode.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  // Update episode watch progress
+  Future<int> updateEpisodeProgress({
+    required String animeId,
+    required int episodeNumber,
+    required bool isSub,
+    required int watchedTime,
+    int? isCompletelyWatched,
+  }) async {
+    final db = await database;
+
+    final Map<String, dynamic> updateData = {'watchedTime': watchedTime};
+
+    if (isCompletelyWatched != null) {
+      updateData['isCompletelyWatched'] = isCompletelyWatched;
+    }
+
+    return await db.update(
+      'anime_episodes',
+      updateData,
+      where: 'animeId = ? AND episodeNumber = ? AND isSub = ?',
+      whereArgs: [animeId, episodeNumber, isSub ? 1 : 0],
+    );
+  }
+
+  // Update video URLs for an episode
+  Future<int> updateEpisodeUrls({
+    required String animeId,
+    required int episodeNumber,
+    required bool isSub,
+    required List<String> videoUrls,
+  }) async {
+    final db = await database;
+
+    return await db.update(
+      'anime_episodes',
+      {'video_urls': jsonEncode(videoUrls)},
+      where: 'animeId = ? AND episodeNumber = ? AND isSub = ?',
+      whereArgs: [animeId, episodeNumber, isSub ? 1 : 0],
+    );
+  }
+
+  // Get a specific episode
+  Future<EpisodeModel?> getEpisode({
+    required String animeId,
+    required int episodeNumber,
+    required bool isSub,
+  }) async {
+    final db = await database;
+
+    final results = await db.query(
+      'anime_episodes',
+      where: 'animeId = ? AND episodeNumber = ? AND isSub = ?',
+      whereArgs: [animeId, episodeNumber, isSub ? 1 : 0],
+      limit: 1,
+    );
+
+    if (results.isNotEmpty) {
+      return EpisodeModel.fromMap(results.first);
+    }
+
+    return null;
+  }
+
+  // Get all episodes for an anime
+  Future<List<EpisodeModel>> getEpisodesByAnimeId(String animeId) async {
+    final db = await database;
+
+    final results = await db.query(
+      'anime_episodes',
+      where: 'animeId = ?',
+      whereArgs: [animeId],
+      orderBy: 'episodeNumber ASC',
+    );
+
+    return results.map((map) => EpisodeModel.fromMap(map)).toList();
+  }
+
+  // Delete an episode
+  Future<int> deleteEpisode({
+    required String animeId,
+    required int episodeNumber,
+    required bool isSub,
+  }) async {
+    final db = await database;
+
+    return await db.delete(
+      'anime_episodes',
+      where: 'animeId = ? AND episodeNumber = ? AND isSub = ?',
+      whereArgs: [animeId, episodeNumber, isSub ? 1 : 0],
+    );
   }
 }

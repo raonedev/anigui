@@ -2,6 +2,7 @@ import 'package:anigui/blocs/search/cubit/anime_search_cubit.dart';
 import 'package:anigui/pages/home_page.dart';
 
 import 'blocs/anime_detail/cubit/anime_detail_cubit.dart';
+import 'blocs/episodes_bloc/dart/anime_episodes_cubit.dart';
 import 'blocs/home_cubits/movies/cubit/anime_movie_cubit.dart';
 import 'blocs/home_cubits/ona/cubit/anime_ona_cubit.dart';
 import 'blocs/home_cubits/ova/cubit/anime_ova_cubit.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => AnimeOnaCubit(apiService,_dbHelper)..loadOnaAnime()),
         BlocProvider(create: (context) => AnimeSearchCubit(apiService)),
         BlocProvider(create: (context) => AnimeDetailCubit(apiService,_dbHelper)),
+        BlocProvider(create: (context) => AnimeEpisodesCubit(apiService,_dbHelper)),
       ],
       child: MaterialApp(
         title: 'ani-gui',
